@@ -1,0 +1,7 @@
+Do this:
+
+>	export PATH=$PATH:path/to/phaker/bin/
+
+E.g. 
+
+>	export PATH=$PATH:~/phaker/bin/

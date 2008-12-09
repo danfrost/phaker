@@ -1,0 +1,17 @@
+/**
+	Stylesheet for project '<?= $this->project ?>'
+
+**/
+
+h1 {
+	font-size : <?= $this->h1_font_size ?>;
+}
+
+h2 {
+	font-size : <?= $this->h2_font_size ?>;
+}
+
+h3 {
+	font-size : <?= $this->h3_font_size ?>;
+}
+

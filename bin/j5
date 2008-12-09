@@ -1,0 +1,16 @@
+#
+# Add this to your $PATH
+#
+
+dir=`dirname $0`
+echo $*;
+#exit 1;
+
+file=$dir"/../lib/j5/j5.php "$*
+
+echo $file
+
+php -d display_errors=On $file
+
+echo 
+echo
