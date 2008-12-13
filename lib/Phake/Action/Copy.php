@@ -1,6 +1,5 @@
 <?php
 
-
 class Phake_Action_Copy extends Phake_Action implements Phake_Action_Undoable {
 	var $source = '';
 	var $target = '';

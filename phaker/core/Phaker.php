@@ -5,6 +5,9 @@
  */
 class Phake_Script_Phaker extends Phake_Script {
 	
+	/**
+	 * \brief	Short intro
+	 */
 	function welcome() {}
 	
 	function welcome_short() {}

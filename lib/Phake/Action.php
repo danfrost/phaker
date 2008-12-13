@@ -9,11 +9,38 @@ abstract class Phake_Action {
 	
 	function __construct(& $context) {
 		$this->context = & $context;
-		//$this->args = func_get_args();
-//		$this->setArgs(func_get_args());
 	}
 	
-	abstract function setArgs($args);
+	/**
+	 * \brief	setArguments
+	 */
+	final function setArgs($args) {
+		$vars = Phake_ActionHelper::get_class_vars($this);
+		
+		$i = 0;
+		foreach($vars as $var_name=>$var_type) {
+			$var_value = & $args[$i];
+			if(class_exists($var_type)) {
+				if(is_a($var_value, $var_type)) {
+					$this->$var_name =  & $args[$i];
+				} else {
+					$this->$var_name = new $var_type($var_value);
+				}
+			} else {
+				$this->$var_name =  & $args[$i];
+			}
+			$i++;
+		}
+		return;
+		
+		print_r($this);
+		die();
+		print_r(get_class_vars(get_class($this)));
+		
+		$this->source = $this->context->dir.$args[0];
+		$this->target = $this->context->dir.$args[1];
+	}
+	
 	
 	function getName() {
 		return str_replace('CliAction_', '', get_class($this));

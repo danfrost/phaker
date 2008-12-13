@@ -1,15 +1,12 @@
 <?php
 
 class Phake_Action_Touch extends Phake_Action {
-	var	$file = '';
-	
-	function setArgs($args) {
-		$this->file = $this->context->dir.$args[0];
-	}
+	var	$file = Phake_File;
 	
 	function doAction() {
-		echo "\nTouching: $this->file";
-		touch($this->file);
+		echo "\nTouching: ".$this->file->getFullPath();
+		
+		touch($this->file->getFullPath());
 	}
 }
 

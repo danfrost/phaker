@@ -2,9 +2,12 @@
 
 class Phake_Script_Macro extends Phake_Script {
 	
+	/**
+	 * \brief	Create a new macro
+	 */
 	function create() {
 		
-		$this->context = new CliContext($_SERVER['PWD']);
+		$this->context = new Phake_Context($_SERVER['PWD']);
 		
 		$name	= readline("\nName of macro:\t");
 		

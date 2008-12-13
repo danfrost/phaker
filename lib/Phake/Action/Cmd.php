@@ -1,6 +1,6 @@
 <?php
 
-class Phake_Action_Cmd extends CliAction {
+class Phake_Action_Cmd extends Phake_Action {
 	var	$cmd;
 	
 	function setArgs($args) {

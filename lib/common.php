@@ -28,6 +28,10 @@ class Autoloader {
 	function get_class_dir($class_name) {
 		return dirname(self::$class_cache[$class_name]).'/';
 	}
+	
+	function get_class_file($class_name) {
+		return self::$class_cache[$class_name];
+	}
 }
 
 
@@ -41,6 +45,7 @@ function __autoload($class_name) {
 		require_once PHAKER_LIB_DIR.$file_name;
 		return;
 	}
+	
 	
 	// 2. If that didn't work, it might be a phake script:
 	
