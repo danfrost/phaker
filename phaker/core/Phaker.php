@@ -3,23 +3,11 @@
 /**
  * \brief	Set of arbitrary welcome, more info etc commands. No real functionality here.
  */
-class PhakeScript_Phaker extends Phake_Script {
-	function welcome() {
-		echo 
-"
-  # 
-  # Phaker - scripts
-  # (c) 2008 - Dan Frost
-  #
-";
-	}
+class Phake_Script_Phaker extends Phake_Script {
 	
-	function welcome_short() {
-		echo 
-"
-  # Phaker 
-";
-	}
+	function welcome() {}
+	
+	function welcome_short() {}
 	
 	function about() {
 		phake('phaker welcome');

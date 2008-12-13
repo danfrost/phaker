@@ -1,6 +1,6 @@
 <?php
 
-class PhakeScript_FileActions extends Phake_Script {
+class Phake_Script_FileActions extends Phake_Script {
 	
 	/*
 	

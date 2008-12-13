@@ -1,6 +1,6 @@
 <?php
 
-class PhakeScript_Help extends Phake_Script {
+class Phake_Script_Help extends Phake_Script {
 	
 	/**
 	 * \brief	Do some stuff....
@@ -31,6 +31,8 @@ class PhakeScript_Help extends Phake_Script {
 	}
 	
 	function config() {
+		phake('phaker welcome-short');
+		return;
 		echo "
   Current config:
 
@@ -41,6 +43,11 @@ class PhakeScript_Help extends Phake_Script {
 	
 	function custom_script() {
 		echo $this->include_doc('DOC_custom_script.md');
+	}
+	
+	
+	function howto() {
+		
 	}
 	
 	private function include_doc($doc_file) {

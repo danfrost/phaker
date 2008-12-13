@@ -63,7 +63,7 @@ class Phake_Dispatcher {
 		
 		$command = strtolower($command);
 		$command{0} = strtoupper($command{0});
-		$class = 'PhakeScript_'.$command;
+		$class = 'Phake_Script_'.$command;
 		//echo "\nCommand: $class\n";
 		
 		if(!class_exists($class)) {

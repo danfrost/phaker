@@ -36,7 +36,7 @@ class Phake {
 		
 		$command = strtolower($cmd);
 		$command{0} = strtoupper($command{0});
-		$class = 'PhakeScript_'.$command;
+		$class = 'Phake_Script_'.$command;
 		
 		$cmd = new $class();
 		
@@ -79,7 +79,37 @@ class Phake_Script {
 	function dispatchAction() {
 		$action = $this->action;
 		$this->$action();
+		$this->include_action_view();
+		
 	}
+	
+	
+	function include_action_view() {
+		$dir = Autoloader::get_class_dir(get_class($this));
+		$view_file = $dir.$this->get_cmd().'/'.$this->action.'.php';
+		
+		if(!file_exists($view_file)) {
+			return;
+		}
+		
+		ob_start();
+		require $view_file;
+		$ret = ob_get_clean();
+		
+		$x = explode(PHP_EOL, $ret);
+		$ret = implode(PHP_EOL.'> ', $x);
+		
+		echo PHP_EOL.$ret;
+	}
+	
+	/**
+	 * \brief	Return the cmd that $this provides 
+	 */
+	function get_cmd() {
+		return str_replace('Phake_Script_', '', get_class($this));
+	}
+	
+	
 	/*
 	function _index() {
 		p::touch('myfile.txt');
