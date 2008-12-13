@@ -8,26 +8,19 @@ class Phake_Script_FileObject extends Phake_Script {
 	function index() {
 		Phake_File::$context = new Phake_Context(dirname(__FILE__).'/tmp/');
 		
-		$f = f('myfile.txt')->touch();
+		// Example 0 - create and remove a file
+		$f = f('there.txt')->touch();
+		$f->remove();
 		
-		//$f->rename('otherfile.txt');
+		// Example 1 - create and move a file:
+		$f = f('blar.txt');
+		$f->touch();
+		$f->move('there.txt');
 		
-		$f->test('filename.txt', 'this is a string');
+		// Example 2 - using chaining
+		$f = f('blar2.txt')->touch()->backup();
+		
 	}
-	
-	function blar() {
-		
-		$config = f('myfile.ini')->as_array();
-		
-		$config['test'] = 'asdfasdf';
-		
-		$f = f('myotherfile.ini')->write($config);
-		
-		$f = $f->rename('blar.txt');
-		
-		$f->backup()->send_to('me@example.com');
-		
-	}	
 }
 
 ?>

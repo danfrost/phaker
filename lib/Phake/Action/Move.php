@@ -5,24 +5,26 @@ class Phake_Action_Move extends Phake_Action implements Phake_Action_Undoable {
 	var	$source = Phake_File;
 	var	$target = Phake_File;
 	
-	function __setArgs($args) {
-		$this->source = $this->context->dir.$args[0];
-		$this->target = $this->context->dir.$args[1];
-	}
-	
 	function doAction() {
-		print_r($this);
-		die();
 		echo "\nMoving from: $this->source to $this->target";
+		if($this->source->is_not_file()) {
+			throw new Exception("Cannot move not-existant file: $this->source");
+		}
+		if($this->target->is_file()) {
+			throw new Exception("Cannot move file - target already exists: $this->target");
+		}
 		rename($this->source->getFullPath(), $this->target->getFullPath());
 	}
 	
 	function undoAction() {
 		echo "\nUndoing: ".$this->getName();
-		if(!file_exists($this->target)) {
-			throw new Exception("File does not exist: '$this->source'");
+		if($this->target->is_not_file()) {
+			throw new Exception("Cannot move not-existant file: $this->target");
 		}
-		rename($this->target, $this->source);
+		if($this->source->is_file()) {
+			throw new Exception("Cannot move file - target already exists: $this->source");
+		}
+		rename($this->target->getFullPath(), $this->source->getFullPath());
 	}
 }
 
