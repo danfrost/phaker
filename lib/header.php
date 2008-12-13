@@ -17,7 +17,7 @@ define('PHAKER_APP_DIR', 	dirname(dirname(__FILE__)));
 
 # Shared code
 # (TODO)
-
+require_once	dirname(__FILE__).'/common.php';
 
 # Global phake scripts
 

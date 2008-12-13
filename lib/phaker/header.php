@@ -13,6 +13,8 @@ require_once PHAKE_DIR.'/class.PhakeScript.php';
 require_once PHAKE_DIR.'/class.PhakeEvent.php';
 require_once PHAKE_DIR.'/class.p.php';
 
+require_once PHAKE_DIR.'/class.CliContext.php';
+
 /**
  * \brief	Return the directory in $dirs that $file exists in. Last directory wins.
  * @param $file	Filename

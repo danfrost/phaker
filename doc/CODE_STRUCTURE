@@ -30,14 +30,34 @@ CODE_STRUCTURE:
 	X	templates/example/
 	X	templates/skeleton/
 	
+	
+	
 	# Phaker - just the core code #
 	lib/phaker/
 	lib/phaker/bin/phake
 	lib/phaker/bin/phaker (alias)
 	lib/phaker/lib/
+		NS: Phake
 		header.php
+		
+		class.Dispatcher.php	- Phake_Dispatcher
+		class.Script.php		- Phake_Script
+		
+		
 		class.PhakeScript.php
+		class.Phake_CliAction.php
+		Phake_CliAction/
+			class.Move.php
+			>>
+				class.Phake_CliAction_Move.php
+			class.Remove.php
+			class.Mkdir.php
+		
+		
 		{all PhakeScripts will move to 'phaker' scripts dir below}
+	
+	
+	
 	
 	
 	# Plugins and extensions #
