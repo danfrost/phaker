@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/header.php';
 
-echo PhakeDispatcher::dispatch_cli($argv);
+echo Phake_Dispatcher::dispatch_cli($argv);
 
 exit;
 

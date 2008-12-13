@@ -6,7 +6,7 @@ clear
 dir=`dirname $0`
 #echo $*;
 
-file=$dir"/../lib/phaker/phaker.php "$*
+file=$dir"/../lib/Phake/phaker.php "$*
 
 #echo $file
 

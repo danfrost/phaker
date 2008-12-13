@@ -19,4 +19,40 @@ if(!function_exists('readline')) {
 }
 
 
+
+// TODO: Make __autoload pluggable so this can be used in other places (e.g. in J5)
+function __autoload($class_name) {
+	
+	// 1. Try to load normal file
+	$file_name = str_replace('_', '/', $class_name).'.php';
+	//echo "::1Loading $class_name from file $file_name\n";
+	if(file_exists(PHAKER_LIB_DIR.$file_name)) {
+		require_once PHAKER_LIB_DIR.$file_name;
+		return;
+	}
+	
+	// 2. If that didn't work, it might be a phake script:
+	
+	// Look up installed Phake Scripts...
+	$f = str_replace('PhakeScript_', '', $class_name).'.php';
+	//echo "\n::[2] Loading $class_name from file $file_name\n";
+	
+	$dirs = explode(':', PHAKE_SCRIPTS_DIR);
+	
+	$try_file = findFileInDirs($f, $dirs);
+	//echo "\nFound file: $try_file\n";
+	
+	if(file_exists($try_file)) {
+		require_once $try_file;
+		
+		if(!class_exists($class_name)) {
+			throw new Exception("'$class_name' does not exist after including likely file: '$try_file'");
+		}
+	} else {
+		print_r(debug_backtrace());
+		throw new Exception("$class_name does not exist");
+	}
+}
+
+
 ?>

@@ -18,6 +18,7 @@ class Phake {
 			    /* This is the correct way to loop over the directory. */
 			    while (false !== ($file = readdir($handle))) {
 			        if(is_file("$d$file")) {
+						//echo "\nIncluding file: $d$file";
 						$cmd = str_replace('class.PhakeScript_', '', $file);
 						$cmd = str_replace('.php', '', $cmd);
 						$cmd = strtolower($cmd);
@@ -53,7 +54,7 @@ class Phake {
 }
 
 
-class PhakeScript {
+class Phake_Script {
 	
 	static public $current;
 	
@@ -61,7 +62,7 @@ class PhakeScript {
 	protected	$args = array();
 	
 	function __construct($action=null, $args=array()) {
-		PhakeScript::$current = $this;
+		self::$current = $this;
 		
 		if(!method_exists($this, $action)) {
 			//echo "\n> Action doesn't exist: $action\n";

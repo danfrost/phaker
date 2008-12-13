@@ -1,6 +1,6 @@
 <?php
 
-class PhakeScript_FileActions extends PhakeScript {
+class PhakeScript_FileActions extends Phake_Script {
 	
 	/*
 	
@@ -36,7 +36,7 @@ class PhakeScript_FileActions extends PhakeScript {
 	
 	function & getContext() {
 		static $p;
-		if(!$p) $p = new CliContext($this->args[0]);
+		if(!$p) $p = new Phake_Context($this->args[0]);
 		return $p;
 	}
 	
@@ -76,7 +76,7 @@ class PhakeScript_FileActions extends PhakeScript {
 	function set_content() {
 		$p = $this->getContext();
 		// test: set content
-		$p->set_content('set_content_test.txt', 'This is some example content');
+		$p->setContent('set_content_test.txt', 'This is some example content');
 	}
 	
 }

@@ -21,11 +21,10 @@ function phake($controller, $action=null) {
 	//dbg("Controller: $controller, Action: $action");
 	unset($args[0], $args[1]);
 	
-	
-	PhakeDispatcher::dispatch_command($controller, $action, $args);
+	Phake_Dispatcher::dispatch_command($controller, $action, $args);
 }
 
-class PhakeDispatcher {
+class Phake_Dispatcher {
 	
 	static	private	$cli_command 	= null;
 	static	private	$cli_action 	= null;
@@ -93,7 +92,7 @@ class PhakeDispatcher {
 }
 
 // TODO: Make __autoload pluggable so this can be used in other places (e.g. in J5)
-function __autoload($class_name) {
+function ____autoload($class_name) {
 	//echo "\nTrying to load: '$class_name' from dir ".PHAKE_SCRIPTS_DIR." \n";
 	$f = 'class.'.$class_name.'.php';
 	$dirs = explode(':', PHAKE_SCRIPTS_DIR);

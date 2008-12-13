@@ -37,12 +37,19 @@ CODE_STRUCTURE:
 	lib/phaker/bin/phake
 	lib/phaker/bin/phaker (alias)
 	lib/phaker/lib/
+	
+	~ change to ~
+	
+	lib/Phake/
+	lib/Phake/Action/
+	lib/Phake/Script/ ?? anything in here?
+	lib/Phake/Action/
+	
 		NS: Phake
 		header.php
 		
 		class.Dispatcher.php	- Phake_Dispatcher
 		class.Script.php		- Phake_Script
-		
 		
 		class.PhakeScript.php
 		class.Phake_CliAction.php

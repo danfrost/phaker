@@ -3,7 +3,7 @@
 /**
  * \brief	Set of arbitrary welcome, more info etc commands. No real functionality here.
  */
-class PhakeScript_Phaker extends PhakeScript {
+class PhakeScript_Phaker extends Phake_Script {
 	function welcome() {
 		echo 
 "

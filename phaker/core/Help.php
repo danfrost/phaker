@@ -1,6 +1,6 @@
 <?php
 
-class PhakeScript_Help extends PhakeScript {
+class PhakeScript_Help extends Phake_Script {
 	
 	/**
 	 * \brief	Do some stuff....

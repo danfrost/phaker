@@ -12,7 +12,9 @@ function dbg($msg) {
 
 define('PHAKER_DOC_DIR', 	dirname(dirname(__FILE__)).'/doc/');
 
-define('PHAKER_APP_DIR', 	dirname(dirname(__FILE__)));
+define('PHAKER_APP_DIR', 	dirname(dirname(__FILE__)).'/');
+
+define('PHAKER_LIB_DIR', 	dirname(__FILE__).'/');
 
 
 # Shared code

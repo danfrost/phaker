@@ -1,6 +1,6 @@
 <?php
 
-class PhakeScript_Macro extends PhakeScript {
+class PhakeScript_Macro extends Phake_Script {
 	
 	function create() {
 		
