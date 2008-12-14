@@ -1,5 +1,11 @@
 # Specification #
 
+## High level ... ##
+
+Allow coders to create scripts very quick and easily using either (nearly) native PHP, or
+a library of very simple functions.
+
+
 
 # Core #
 

@@ -34,9 +34,19 @@ class Phake_Dispatcher {
 	 * \brief	Dispatch a command line argument
 	 */
 	static final function dispatch_cli($a) {
+		/*
 		$cli_command = $a[1];
 		$cli_action = @$a[2] ? $a[2] : 'index';
 		unset($a[0], $a[1], $a[2]);
+		$cli_args		= array_values($a);
+		*/
+		$cli_cmdAction	= $a[1];
+		$x	= explode(':', $cli_cmdAction);
+		$cli_command 	= $x[0];
+		$cli_action 	= @$x[1] ? @$x[1] : 'index';
+		
+		unset($a[0], $a[1]);
+		
 		$cli_args		= array_values($a);
 		
 		if(!$cli_command) {
@@ -70,7 +80,7 @@ class Phake_Dispatcher {
 			throw new Exception("Command '$command' unknown");
 		}
 		
-		dbg("Running: $command::$action");
+		#dbg("Running: $command::$action");
 		
 		$action = str_replace('-', '_', $action);
 		

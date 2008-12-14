@@ -6,6 +6,7 @@
 class Phake_Script_FileObject extends Phake_Script {
 	
 	function index() {
+		// Where should this happen?
 		Phake_File::$context = new Phake_Context(dirname(__FILE__).'/tmp/');
 		
 		// Example 0 - create and remove a file
@@ -19,7 +20,6 @@ class Phake_Script_FileObject extends Phake_Script {
 		
 		// Example 2 - using chaining
 		$f = f('blar2.txt')->touch()->backup();
-		
 	}
 }
 

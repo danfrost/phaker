@@ -24,10 +24,28 @@ class Phake_Script {
 	}
 	
 	function dispatchAction() {
+		static $depth = 0;
+		
+		if($depth==0) {
+			ob_start();
+		}
+		
+		$depth++;
+		
 		$action = $this->action;
 		$this->$action();
 		$this->include_action_view();
 		
+		$depth--;
+		
+		if($depth==0) {
+			$ret = ob_get_clean();
+		
+			$x = explode(PHP_EOL, $ret);
+			$ret = implode(PHP_EOL.'> ', $x);
+		
+			echo PHP_EOL.$ret;
+		}
 	}
 	
 	/**
@@ -41,14 +59,7 @@ class Phake_Script {
 			return;
 		}
 		
-		ob_start();
 		require $view_file;
-		$ret = ob_get_clean();
-		
-		$x = explode(PHP_EOL, $ret);
-		$ret = implode(PHP_EOL.'> ', $x);
-		
-		echo PHP_EOL.$ret;
 	}
 	
 	/**
@@ -57,15 +68,6 @@ class Phake_Script {
 	protected function get_cmd() {
 		return str_replace('Phake_Script_', '', get_class($this));
 	}
-	
-	/*
-	function _index() {
-		p::touch('myfile.txt');
-	}
-	
-	function _example() {
-		p::touch('myfile.txt');
-	}*/
 }
 
 
