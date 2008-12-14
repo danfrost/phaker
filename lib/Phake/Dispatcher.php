@@ -68,8 +68,8 @@ class Phake_Dispatcher {
 		self::$dispatched_commands_counter++;
 		
 		$count = self::$dispatched_commands_counter;
-		//echo "\n> Depth = ".count(PhakeDispatcher::$dispatched_commands)."\n";
-		//echo "\nCommand: $command";
+		echo "\n> Depth = ".count(self::$dispatched_commands)."; Command: $command\n";
+		//echo "\n";
 		
 		$command = strtolower($command);
 		$command{0} = strtoupper($command{0});
