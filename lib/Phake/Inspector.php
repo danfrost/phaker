@@ -43,7 +43,7 @@ class Phake_Inspector {
 		
 		$actions = array();
 		foreach(get_class_methods($cmd) as $c) {
-			if(is_callable(array($class, $c)) && !in_array($c, array('__construct', 'dispatchAction'))) {
+			if(is_callable(array($class, $c)) && !in_array($c, array('__construct', 'dispatchAction', '__toString'))) {
 				//echo "\n> Callable: $c";
 				$actions[] = $c;
 			} else {

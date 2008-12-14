@@ -2,6 +2,11 @@
 
 class Phake_Script_Macro extends Phake_Script {
 	
+	
+	private	$name	= '';
+	
+	private	$is_recording	= true;
+	
 	/**
 	 * \brief	Create a new macro
 	 */
@@ -9,14 +14,17 @@ class Phake_Script_Macro extends Phake_Script {
 		
 		$this->context = new Phake_Context($_SERVER['PWD']);
 		
-		$name	= readline("\nName of macro:\t");
+		$this->name	= readline("\nName of macro:\t");
 		
 		$commandStack	= array();
 		
 		$actionStack	= array();
 		
-		while($cmd = readline("\n:~/")) {
+		while($cmd = readline($this->getPrompt())) {
 			
+			if($cmd=='pause') {
+				$this->is_recording = ! $this->is_recording;
+			} else 
 			if(substr($cmd,0,1)=='\\') {
 				
 				if(substr($cmd, 0, 3)=='\\rm') {
@@ -42,6 +50,10 @@ class Phake_Script_Macro extends Phake_Script {
 				$actionStack[] = $this->context->cmd($cmd);
 			}
 		}
+	}
+	
+	function getPrompt() {
+		return $_SERVER['PWD']." [$this->name] ".($this->is_recording ? '!' : 'p')." $";;
 	}
 	
 }

@@ -24,9 +24,10 @@ class Phake_Script {
 	}
 	
 	function dispatchAction() {
+		$enable_caching = false;
 		static $depth = 0;
 		
-		if($depth==0) {
+		if($depth==0 && $enable_caching) {
 			ob_start();
 		}
 		
@@ -38,7 +39,7 @@ class Phake_Script {
 		
 		$depth--;
 		
-		if($depth==0) {
+		if($depth==0 && $enable_caching) {
 			$ret = ob_get_clean();
 		
 			$x = explode(PHP_EOL, $ret);
@@ -46,6 +47,10 @@ class Phake_Script {
 		
 			echo PHP_EOL.$ret;
 		}
+	}
+	
+	function __toString() {
+		return $this->get_cmd().':'.$this->action;
 	}
 	
 	/**
@@ -67,6 +72,12 @@ class Phake_Script {
 	 */
 	protected function get_cmd() {
 		return str_replace('Phake_Script_', '', get_class($this));
+	}
+	
+	
+	
+	final protected function error($msg) {
+		throw new Phake_Script_ScriptException($msg);
 	}
 }
 

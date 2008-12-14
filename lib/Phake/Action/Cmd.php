@@ -1,11 +1,7 @@
 <?php
 
 class Phake_Action_Cmd extends Phake_Action {
-	var	$cmd;
-	
-	function setArgs($args) {
-		$this->cmd = $args[0];
-	}
+	public	$cmd 	= '';
 	
 	/**
 	 * \todo 	If the first part of the string is a known CliAction, then route it through the appropriate object

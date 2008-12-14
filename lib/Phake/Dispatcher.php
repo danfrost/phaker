@@ -83,42 +83,58 @@ class Phake_Dispatcher {
 		#dbg("Running: $command::$action");
 		
 		$action = str_replace('-', '_', $action);
+		try {
+			$obj = new $class($action, $args);
+			self::$dispatched_commands[$count] = & $obj;
 		
-		$obj = new $class($action, $args);
-		self::$dispatched_commands[$count] = & $obj;
-		
-		self::$dispatched_commands[$count]->dispatchAction();
+			self::$dispatched_commands[$count]->dispatchAction();
+		} catch(Phake_Script_ScriptException $e) {
+			print_r(self::$dispatched_commands);
+			self::print_error($e);
+		}
 		
 		// Move completed command to the other array
 		$obj = & self::$dispatched_commands[$count];
 		unset(self::$dispatched_commands[$count]);
 		
 		self::$completed_commands[$count] = & $obj;
-		
+		self::$completed_commands[$count]->call_depth = count(self::$dispatched_commands)+1;
 		//echo "\nDoing action: $action\n";
 		
 		//return c($action);
-	}	
-}
-
-// TODO: Make __autoload pluggable so this can be used in other places (e.g. in J5)
-function ____autoload($class_name) {
-	//echo "\nTrying to load: '$class_name' from dir ".PHAKE_SCRIPTS_DIR." \n";
-	$f = 'class.'.$class_name.'.php';
-	$dirs = explode(':', PHAKE_SCRIPTS_DIR);
+	}
 	
-	$try_file = findFileInDirs($f, $dirs);
-	
-	if(file_exists($try_file)) {
-		require_once $try_file;
+	static final function print_error($e) {
 		
-		if(!class_exists($class_name)) {
-			throw new Exception("'$class_name' does not exist after including likely file: '$try_file'");
+		// Move this to ... not sure where??
+		
+		echo PHP_EOL."Completed commands:";
+		
+		$cmds = array();
+		$i=0;
+		foreach(self::$completed_commands as $cmd) {
+			$i++;
+			$cmds[] = "  [$i]  ".str_pad(
+				( (str_repeat('> ', $cmd->call_depth-1)).
+				((string) $cmd)), 30);
 		}
-	} else {
-		throw new Exception("$class_name does not exist");
+		echo PHP_EOL.implode(PHP_EOL, $cmds);
+		
+		echo PHP_EOL."Failed: ";
+		
+		$cmds = array();
+		$i=0;
+		foreach(self::$dispatched_commands as $cmd) {
+			$i++;
+			$cmds[] = "  [$i]  ".str_pad(
+				( (str_repeat('> ', $i)).
+				((string) $cmd)), 30).((($i)==count(self::$dispatched_commands)? ' !! Exception: '.$e->getMessage() : ''));
+		}
+		echo PHP_EOL.implode(PHP_EOL, $cmds);
+		
+		throw new Phake_Script_EndAllException("Please fix the above error before continuing");
+		
 	}
 }
-
 
 ?>

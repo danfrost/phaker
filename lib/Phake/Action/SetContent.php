@@ -2,17 +2,12 @@
 
 class Phake_Action_SetContent extends Phake_Action {
 	
-	var $file = '';
-	var $content = null;
-	
-	function setArgs($args) {
-		$this->file = $this->context->dir.$args[0];
-		$this->content = $this->context->dir.$args[1];
-	}
+	var $file 		= Phake_File;
+	var $content 	= '';
 	
 	function doAction() {
-		echo "\nSetting content in: $this->file";
-		file_put_contents($this->file, $this->content);
+		echo "\nSetting content in: $this->file to $this->content";
+		file_put_contents($this->file->getFullPath(), $this->content);
 	}
 	
 }
