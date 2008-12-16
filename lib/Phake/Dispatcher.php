@@ -68,8 +68,7 @@ class Phake_Dispatcher {
 		self::$dispatched_commands_counter++;
 		
 		$count = self::$dispatched_commands_counter;
-		echo "\n> Depth = ".count(self::$dispatched_commands)."; Command: $command\n";
-		//echo "\n";
+		// echo "\n> Depth = ".count(self::$dispatched_commands)."; Command: $command\n";
 		
 		$command = strtolower($command);
 		$command{0} = strtoupper($command{0});
@@ -89,7 +88,7 @@ class Phake_Dispatcher {
 		
 			self::$dispatched_commands[$count]->dispatchAction();
 		} catch(Phake_Script_ScriptException $e) {
-			print_r(self::$dispatched_commands);
+			//print_r(self::$dispatched_commands);
 			self::print_error($e);
 		}
 		
@@ -108,7 +107,7 @@ class Phake_Dispatcher {
 		
 		// Move this to ... not sure where??
 		
-		echo PHP_EOL."Completed commands:";
+		echo PHP_EOL.PHP_EOL."Completed commands:";
 		
 		$cmds = array();
 		$i=0;
@@ -120,7 +119,7 @@ class Phake_Dispatcher {
 		}
 		echo PHP_EOL.implode(PHP_EOL, $cmds);
 		
-		echo PHP_EOL."Failed: ";
+		echo PHP_EOL.PHP_EOL."Failed: ";
 		
 		$cmds = array();
 		$i=0;

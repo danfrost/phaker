@@ -12,22 +12,13 @@ function dbg($msg) {
 
 define('PHAKER_DOC_DIR', 	dirname(dirname(__FILE__)).'/doc/');
 
-<<<<<<< HEAD:lib/header.php
-define('PHAKER_APP_DIR', 	dirname(dirname(__FILE__)));
-=======
 define('PHAKER_APP_DIR', 	dirname(dirname(__FILE__)).'/');
 
 define('PHAKER_LIB_DIR', 	dirname(__FILE__).'/');
->>>>>>> c296d51b54800e876bbd8bebd1f23f9d0df7d9b4:lib/header.php
-
 
 # Shared code
 # (TODO)
-<<<<<<< HEAD:lib/header.php
-
-=======
 require_once	dirname(__FILE__).'/common.php';
->>>>>>> c296d51b54800e876bbd8bebd1f23f9d0df7d9b4:lib/header.php
 
 # Global phake scripts
 
