@@ -2,6 +2,10 @@
 
 /**
  * \brief	PHP version of the phake CLI.
+ *
+ * @package		Phaker
+ * @author		Dan Frost <dan@danfrost.co.uk>
+ * @copyright 	Copyright (c) 2008, Dan Frost
  */
 function phake($controller, $action=null) {
 	$args = func_get_args();

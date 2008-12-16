@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * 
+ * @package		Phaker
+ * @author		Dan Frost <dan@danfrost.co.uk>
+ * @copyright 	Copyright (c) 2008, Dan Frost
+ */
 class Phake_Action_Chmod extends Phake_Action {
 	var $file = '';
 	var $permissions = '';

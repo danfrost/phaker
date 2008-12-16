@@ -16,7 +16,9 @@ Or, a expression. E.g.
 
 	f('sql/*.sql')->backup();
 
-
+ * @package		Phaker
+ * @author		Dan Frost <dan@danfrost.co.uk>
+ * @copyright 	Copyright (c) 2008, Dan Frost
  */
 function f($file) {
 	if(is_a($file, 'Phake_File')) {

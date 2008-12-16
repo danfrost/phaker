@@ -1,5 +1,15 @@
 # TODO - Tasks #
 
+#now:
+	Cleanup
+	-	docs for all classes (using phpdocumentor)
+	
+	-	check that all header.php/common.php files don't contain crap
+	
+	
+	
+	
+
 #n:	
 	Skel files / placeholders
 		How is this going to work?

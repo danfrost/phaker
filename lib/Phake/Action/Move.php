@@ -1,6 +1,11 @@
 <?php
 
-
+/**
+ * 
+ * @package		Phaker
+ * @author		Dan Frost <dan@danfrost.co.uk>
+ * @copyright 	Copyright (c) 2008, Dan Frost
+ */
 class Phake_Action_Move extends Phake_Action implements Phake_Action_Undoable {
 	var	$source = Phake_File;
 	var	$target = Phake_File;
