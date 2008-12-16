@@ -273,3 +273,35 @@ Of course, you can use phake macros/scripts (and anything else) within phake mac
 
 
 
+
+
+# stuff... #
+
+## Skeleton files ##
+
+	x main parts:
+	1. find skeleton files:
+		$skelfiles = fs('//*.skel');
+	
+	
+	
+	2. look through them and find placeholders:
+		$skelfiles = fs('//*.skel');
+		
+		
+	2.i.
+		special skel-file action:
+		$fs = fs('sql/*.sql');
+		while($f = $fs->each()) {
+			$f->parseForPlaceholder();
+		}
+		
+	2.ii.
+		skelparser can make the replacements and create the new file.
+		Q: Should the creating of a new file be registered ??? Where?? In the current 'context'???
+
+
+	$fs = fs('sql/*.sql');
+	while($f = $fs->each()) {
+		$f->setContent('# this file is '.$f->getFilename());
+	}

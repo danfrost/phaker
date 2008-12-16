@@ -2,14 +2,14 @@
 # Add this to your $PATH
 #
 
-dir=`dirname $0`
-#echo $*;
+clear
 
-file=$dir"/../lib/phaker/phaker.php "$*
+dir=`dirname $0`
+
+file=$dir"/../lib/Phake/phaker.php "$*
 
 #echo $file
 
 php -d display_errors=On $file
 
-echo 
 echo
