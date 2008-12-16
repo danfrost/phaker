@@ -31,14 +31,7 @@ abstract class Phake_Action {
 			}
 			$i++;
 		}
-		return;
-		
-		print_r($this);
-		die();
-		print_r(get_class_vars(get_class($this)));
-		
-		$this->source = $this->context->dir.$args[0];
-		$this->target = $this->context->dir.$args[1];
+		// TODO: Throw error if the params passed are wrong. Give the user feedback.
 	}
 	
 	
