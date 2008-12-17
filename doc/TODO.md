@@ -7,7 +7,19 @@
 x	-	check that all header.php/common.php files don't contain crap
 
 
-#next:	
+#next:
+
+	* Could really do with a nice parser-wrapper. E.g. provide API like:
+	
+		$cmd_inspector = new Phake_Script_Inspector(Phake_Script_Dummy);
+		$cmd_inspector->getClassDocs();
+		$cmd_inspector->getActions();
+		$cmd_inspector->getActionDocs($action);
+		...
+		
+		This class (Phake_Script_Inspector) could contain all the parsing that needs to be done. Tokeniser etc.
+		It can also implement rules for 'bare' scripts that don't have normal docs.
+	
 	Context	- this should be == $PWD by default. Unless we're going to work in multiple contexts (i.e. directories) at once?
 	
 	

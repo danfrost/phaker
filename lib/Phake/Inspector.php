@@ -79,34 +79,92 @@ class Phake_Inspector {
 		$x = explode(PHP_EOL, $php);
 		
 		$last_brief = '';
+		$record_next_line = false;
 		foreach($x as $line) {
+			if($record_next_line) {
+				//echo "\n>> $line";
+				$record_next_line = false;
+				preg_match("_\*(.*)_", $line, $arr);
+				$last_brief	= trim(str_replace('\\brief', '', $arr[1]));
+			}
 			
-			/*
+			preg_match("_/\*\*_", $line, $arr);
+			if(@$arr[0]) {
+				$record_next_line = true;
+			}
 			
-			If line is 'brief', set last brief
+			preg_match("_\*/_", $line, $arr);
+			if(@$arr[0]) {
+				$record_next_line = false;
+			}
 			
-			if line is $action function, set return brief
-			
-			if line is function, set last_brief to 
-			
-			 
-			*/
-			
-			preg_match("_\\\\brief(.*)_", $line, $arr);
-			if(trim($arr[1]))
-				$last_brief = trim($arr[1]);
-			
-			preg_match("/function[ ]*$action/", $line, $arr);
-			if(trim($arr[0])) {
+			preg_match("/function[ ]*$action\(/", $line, $arr);
+			if(trim(@$arr[0])) {
 				$ret_brief = $last_brief;
 			} 
 			
 			preg_match("/function[^\(]*\(/", $line, $arr);
-			if($arr[0]) {
+			if(@$arr[0]) {
 				$last_brief = '';
 			}
 		}
 		return $ret_brief;
+	}
+	
+	function getCommandDocs($cmd) {
+		$command = strtolower($cmd);
+		$command{0} = strtoupper($command{0});
+		$class = 'Phake_Script_'.$command;
+		
+		$o = new $class();
+		
+		$f = Autoloader::get_class_file($class);
+		
+		$php = file_get_contents($f);
+		$x = explode(PHP_EOL, $php);
+		
+		$tokens = token_get_all($php);
+		$record = false;
+		$last_doc = array();
+		foreach($tokens as $t) {
+			if(@$t[0]==T_DOC_COMMENT) {
+				$last_doc = $t[1];
+			}
+			if(@$t[0]==T_CLASS) {
+				$class_doc = $last_doc;
+				break;
+			}
+		}
+		
+		$x = explode(PHP_EOL, $class_doc);
+		$ret = array();
+		$is_code = false;
+		foreach($x as $line) {
+			if(in_array(trim($line), array('/**', '*/'))) {
+				continue;
+			}
+			
+			preg_match("_\*(.*)_", $line, $arr);
+			$line = trim($arr[1]);
+			
+			preg_match("_<code>_", $line, $arr);
+			if($arr[0]) {
+				$is_code = true;
+				continue;
+			}
+			preg_match("_</code>_", $line, $arr);
+			if($arr[0]) {
+				$is_code = false;
+				continue;
+			}
+						
+			if($is_code) {
+				$line = ">  $line";
+			}
+			
+			$ret[] = $line;
+		}
+		return '  '.implode(PHP_EOL.'  ', $ret);
 	}
 }
 

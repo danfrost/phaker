@@ -7,17 +7,14 @@ class Phake_Script_Help extends Phake_Script {
 	 */
 	function index() {
 		phake('phaker welcome-short');
-		echo "
-  Phake is a bit like make in PHP, but with some extra.
-  
-		";
-		phake('help commands');
+		phake('help', 'commands', @$this->args[0]);
 	}
 	
 	/**
 	 * \brief	List available commands
 	 */
-	function commands() {}
+	function commands() {
+	}
 	
 	/**
 	 * \brief	Show the config
@@ -27,13 +24,6 @@ class Phake_Script_Help extends Phake_Script {
 	}
 	
 	function howto() {}
-	
-	/*private function include_doc($doc_file) {
-		$f = PHAKER_DOC_DIR.$doc_file;
-		$f = file_get_contents($f);
-		$f = str_replace("\t", '  ', $f);
-		return PHP_EOL.PHP_EOL.$f;
-	}*/
 }
 
 ?>

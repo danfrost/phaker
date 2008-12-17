@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ * fileobject demonstrates how phaker deals with files via the "Phake_File" class.
  */
 class Phake_Script_FileObject extends Phake_Script {
 	
@@ -22,6 +22,9 @@ class Phake_Script_FileObject extends Phake_Script {
 		$f = f('blar2.txt')->touch()->backup();
 	}
 	
+	/**
+	 * Creates a few sql files
+	 */
 	function createdbfiles() {
 		Phake_File::$context = new Phake_Context(dirname(__FILE__).'/tmp/');
 		$f = fs('sql/*.sql');
@@ -35,7 +38,7 @@ class Phake_Script_FileObject extends Phake_Script {
 	}
 	
 	/**
-	 * \brief	Example of setting the content in lots of files at once
+	 * Set the content in lots of files at once
 	 */
 	function setfiles() {
 		Phake_File::$context = new Phake_Context(dirname(__FILE__).'/tmp/');
@@ -44,6 +47,9 @@ class Phake_Script_FileObject extends Phake_Script {
 		
 	}
 	
+	/**
+	 * Remove files 
+	 */
 	function dropdbfiles() {
 		Phake_File::$context = new Phake_Context(dirname(__FILE__).'/tmp/');
 		$f = fs('sql/*.sql')->
@@ -52,7 +58,7 @@ class Phake_Script_FileObject extends Phake_Script {
 	}
 	
 	/**
-	 * \brief 	Example of looping through files
+	 * Example of looping through files
 	 */
 	function loop() {
 		Phake_File::$context = new Phake_Context(dirname(__FILE__).'/tmp/');
@@ -63,6 +69,9 @@ class Phake_Script_FileObject extends Phake_Script {
 		}
 	}
 	
+	/**
+	 * (Incomplete) parse skel files 
+	 */
 	function skel() {
 		Phake_File::$context = new Phake_Context(dirname(__FILE__).'/tmp/');
 		$i = 0;

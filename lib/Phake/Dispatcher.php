@@ -14,7 +14,7 @@
  */
 function phake($controller, $action=null) {
 	$args = func_get_args();
-
+	
 	if(count($args)==1) {
 		// Parsing CLI-style arguments
 		$x = explode(' ', $args[0]);
@@ -27,9 +27,12 @@ function phake($controller, $action=null) {
 		unset($args2[0], $args2[1]);
 		$args = array_values($args2);
 	}
+	
 	//dbg("Controller: $controller, Action: $action");
 	unset($args[0], $args[1]);
 	
+	$args = array_values($args);
+
 	Phake_Dispatcher::dispatch_command($controller, $action, $args);
 }
 
