@@ -1,18 +1,48 @@
 
 CODE_STRUCTURE:
 	
-	bin/		(This can be built by 'phake build bin')
+	bin/		(This can be built later by 'phake build bin')
 		j5
 		phaker
 	
-	## IN PROGRESS ##
-	lib/
+	lib/ - generic code will be moved here. E.g.:
 		CLI Dispatcher	- this passes commands down to J5's and Phaker's dispatchers
 		utilties - findFileInDirs()
 		Caching
 		Configuration - writing and reading config
 		Controllers / commands
 		CLI Input		- For getting any kind of user input (will also get stuff from .ini files and, in future, from AJAX UI)
+	
+	# Phaker - just the core code #
+	lib/Phake/
+	lib/Phake/Action/
+	lib/Phake/Script/ ?? anything in here?
+	lib/Phake/Action/
+	
+		header.php
+		
+		Dispatcher.php	- Phake_Dispatcher
+		Script.php		- Phake_Script
+		...etc
+	
+	
+	# Plugins and extensions #
+	
+	# These aren't 'core' but are really useful, so will be shipped with the main code #
+	
+	
+	phaker/ Phake scripts go here
+		core/scripts/Phaker.php		]
+		core/scripts/Help.php		] << These are the only core phake scripts
+		core/views/...				]
+		
+		plugin/scripts/Example.php			]
+		plugin/scripts/Example/index.php	] << All the useful functionality goes here
+		plugin/scripts/Example/help.php		]
+		plugin/scripts/Example/help.php		]
+	
+	
+	
 	
 	# Johnny 5 - just the core code #
 	lib/j5/
@@ -30,65 +60,11 @@ CODE_STRUCTURE:
 	X	templates/example/
 	X	templates/skeleton/
 	
-	
-	
-	# Phaker - just the core code #
-	lib/phaker/
-	lib/phaker/bin/phake
-	lib/phaker/bin/phaker (alias)
-	lib/phaker/lib/
-	
-	~ change to ~
-	
-	lib/Phake/
-	lib/Phake/Action/
-	lib/Phake/Script/ ?? anything in here?
-	lib/Phake/Action/
-	
-		NS: Phake
-		header.php
-		
-		class.Dispatcher.php	- Phake_Dispatcher
-		class.Script.php		- Phake_Script
-		
-		class.PhakeScript.php
-		class.Phake_CliAction.php
-		Phake_CliAction/
-			class.Move.php
-			>>
-				class.Phake_CliAction_Move.php
-			class.Remove.php
-			class.Mkdir.php
-		
-		
-		{all PhakeScripts will move to 'phaker' scripts dir below}
-	
-	
-	
-	
-	
-	# Plugins and extensions #
-	
-	# These aren't 'core' but are really useful, so will be shipped with #
-	
 	templates/... extra j5 templates go here. E.g. skeleton modules, ...
 		phaker/script
 			phaker/scripts/class.PhakeScript_SCRIPT.php
 			phaker/views/SCRIPT/index.php
 			phaker/views/SCRIPT/help.php
-	
-	
-	phaker/ Phake scripts go here
-		core/scripts/class.PhakeScript_Phaker.php	]
-		core/scripts/class.PhakeScript_Help.php		] << These are the only core phake scripts
-		core/views/...								]
-		
-		plugin/scripts/class.PhakeScript_Example.php]
-		plugin/scripts/example/index.php			] << All the useful (proto-core) functionality goes here
-		plugin/scripts/example/help.php				]
-		plugin/scripts/example/help.php				]
-	
-	
-	
+
 	
 	

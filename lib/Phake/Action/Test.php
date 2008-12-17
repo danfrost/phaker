@@ -1,7 +1,11 @@
 <?php
 
 /*
- * \brief	Example Phake Action.
+ * test class
+ * 
+ * @todo 	Remove this
+ * 
+\brief	Example Phake Action.
 
 
 Declare parameters in order. E.g., if you want to the syntax:
@@ -40,11 +44,11 @@ class Phake_Action_Test extends Phake_Action implements Phake_Action_Undoable {
 	public $content	= '';
 	
 	function doAction() {
-		
-		
+		echo "\nDoing nothing\n";
 	}
 	
 	function undoAction() {
+		echo "\nUndoing nothing\n";
 	}
 }
 

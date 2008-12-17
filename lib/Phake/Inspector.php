@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * Provides inspection for commands and their actions.
+ * 
  * @package		Phaker
  * @author		Dan Frost <dan@danfrost.co.uk>
  * @copyright 	Copyright (c) 2008, Dan Frost
@@ -8,7 +10,7 @@
 class Phake_Inspector {
 	
 	/**
-	 * \brief	list all scripts
+	 * List all phake scripts
 	 */
 	function getScripts() {
 		$dirs = explode(':', PHAKE_SCRIPTS_DIR);
@@ -37,6 +39,9 @@ class Phake_Inspector {
 		return $commands;
 	}
 	
+	/**
+	 * Get all actions for a given script. An action is any public method (excluding __construct, dispatchActino and __toString)
+	 */
 	function getActions($cmd) {
 		
 		$command = strtolower($cmd);
@@ -57,6 +62,12 @@ class Phake_Inspector {
 		return $actions;
 	}
 	
+	/**
+	 * Get the documentation for a given action. This uses the PhpDocumentor convention of the first 
+	 * part of the method's documentation.
+	 * 
+	 * @todo 	!!! This is broken since switching from doxygen-style docs to phpdocumentor
+	 */
 	function getActionDocs($cmd, $action) {
 		$command = strtolower($cmd);
 		$command{0} = strtoupper($command{0});

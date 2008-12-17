@@ -1,25 +1,54 @@
 <?php
 
 /**
- * \brief	Abstract action
+ * A 'phake action' is a file-related action usually performed by a Phake_Script object.
+ * 
+ * A 'phake action' is something that happens on the filesystem, such as renaming, creating, 
+ * moving or deleting. Instead of doing these things directly either with native functions or
+ * using native PHP functions, the 'Phake_Action' classes provide the ability to track 
+ * everything that is done and to undo certain actions.
+ * 
  * @package		Phaker
  * @author		Dan Frost <dan@danfrost.co.uk>
  * @copyright 	Copyright (c) 2008, Dan Frost
  */
 abstract class Phake_Action {
+	/**
+	 * The params / args are stored here
+	 * @access	private
+	 * @var		Array
+	 */
+	private	$args	= Array();
 	
-	private	$args	= array();
-	
+	/**
+	 * The context in which the action will have (or has taken) place
+	 * @access	protected
+	 * @var		Phake_Context
+	 */
 	protected	$context	= null;
 	
-	function __construct(& $context) {
+	/**
+	 * Constructor
+	 */
+	final function __construct(& $context) {
 		$this->context = & $context;
 	}
 	
 	/**
-	 * \brief	setArguments
+	 * Sets the arguments that have been passed to the action.
+	 * 
+	 * This function will look at all the public variables in _$this_ and set them to the arguments passed.
+	 * 
+	 * Set file types - for example
+	 * <code>
+	 *	<?php
+	 *	private	$myvar	= Phake_File;
+	 *	?>
+	 * </code>
+	 * 
+	 * @return	void
 	 */
-	final function setArgs($args) {
+	final function setArgs(& $args) {
 		$vars = Phake_ActionHelper::get_class_vars($this);
 		
 		$i = 0;
@@ -39,11 +68,51 @@ abstract class Phake_Action {
 		// TODO: Throw error if the params passed are wrong. Give the user feedback.
 	}
 	
-	
-	function getName() {
-		return str_replace('CliAction_', '', get_class($this));
+	/**
+	 * Prints documentation for the action. Added as an example of what we can do.
+	 * @todo 	Integrate PhpDocumentor so we can get even more docs
+	 * @todo 	Move somewhere else. Not sure where.
+	 */
+	final function print_docs() {
+		$vars = Phake_ActionHelper::get_class_vars($this);
+		
+		$vardocs = array();
+		$i = 0;
+		foreach($vars as $var_name=>$var_type) {
+			if(class_exists($var_type)) {
+				$vardocs[$var_name]	= "Instance of '$var_type'";
+			} else {
+				//$this->$var_name =  & $args[$i];
+				$vardocs[$var_name]	= "String - '$var_type'";
+			}
+		}
+		
+		$docs = array();
+		foreach($vardocs as $var => $doc) {
+			$docs[] = '    '.str_pad($var, 10).': '.$doc;
+		}
+		$vars = array_keys($vardocs);
+		$out = $this->getName().PHP_EOL.
+				"Usage:".PHP_EOL.
+				'  '.$this->getName()."(\$".implode(', $', array_keys($vardocs)).")".PHP_EOL.
+				implode(PHP_EOL, $docs).PHP_EOL;
+		echo $out;
 	}
 	
+	/**
+	 * Returns the name that the action object provides
+	 * @return	String
+	 */
+	function getName() {
+		return str_replace('Phake_Action_', '', get_class($this));
+	}
+	
+	/**
+	 * Run the action. 
+	 * @see 	Phake_Action::doAction()
+	 * @todo 	Log absence of 'undoAction' function to a global 'warning' somewhere - not sure how we'll do this???
+	 * @todo 	Remove all echo()
+	 */
 	function runAction() {
 		echo "\nRunning action: ".$this->getName();
 		if(!method_exists($this, 'undoAction')) {
@@ -53,8 +122,21 @@ abstract class Phake_Action {
 		echo "\nDone action: ".$this->getName();
 	}
 	
-	abstract function doAction();
+	/**
+	 * Runs the action
+	 * 
+	 * All child classes of Phake_Action must implement this.
+	 * @todo 	Provide documentation on what should happen in the doAction() function
+	 */
+	abstract protected function doAction();
 	
+	/**
+	 * Undoes the action, if possible.
+	 * 
+	 * Any action that implements Phake_Action_Undoable can be undone
+	 * @see 	Phake_Action_Undoable
+	 * @todo 	As for runAction() - remove echo()s
+	 */
 	function undo() {
 		if(!method_exists($this, 'undoAction')) {
 			throw new Exception("Cannot undo action: ". $this->getName);

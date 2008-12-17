@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * Set content of the file
  * 
  * @package		Phaker
  * @author		Dan Frost <dan@danfrost.co.uk>

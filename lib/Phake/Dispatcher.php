@@ -1,7 +1,12 @@
 <?php
 
 /**
- * \brief	PHP version of the phake CLI.
+ * PHP version of the phake CLI.
+ * 
+ * Usage is just like phake on the commandline:
+ * <code>
+ * phake('somescript', 'someaction', 'someargs...');
+ * </code>
  *
  * @package		Phaker
  * @author		Dan Frost <dan@danfrost.co.uk>
@@ -28,10 +33,28 @@ function phake($controller, $action=null) {
 	Phake_Dispatcher::dispatch_command($controller, $action, $args);
 }
 
+/**
+ * Dis
+ * 
+ * @package		Phaker
+ * @author		Dan Frost <dan@danfrost.co.uk>
+ * @copyright 	Copyright (c) 2008, Dan Frost
+ */
 class Phake_Dispatcher {
 	
+	/**
+	 * @deprecated
+	 */
 	static	private	$cli_command 	= null;
+	
+	/**
+	 * @deprecated
+	 */
 	static	private	$cli_action 	= null;
+	
+	/**
+	 * @deprecated
+	 */
 	static	private $cli_args		= array();
 	
 	/**
@@ -61,12 +84,28 @@ class Phake_Dispatcher {
 		return self::dispatch_command($cli_command, $cli_action, $cli_args);
 	}
 	
-	static	public $dispatched_commands	= array(); // Stack of commands being processed - can be used for debugging
-	static	public $completed_commands		= array(); // Stack of commands being processed - can be used for debugging
+	/**
+	 * Stack of commands being processed
+	 */
+	static	public $dispatched_commands	= array();
+	
+	/**
+	 * Stack of commands that _have been_ processed
+	 */
+	static	public $completed_commands		= array(); //  - can be used for debugging
+	
+	/**
+	 * Contains how many commands are currently dispatched. 
+	 */
 	static	public $dispatched_commands_counter	= 0; // To keep track of commands
 	
 	/**
-	 * \brief	dispatches $command. This will work out which class to use.
+	 * Dispatches $action in $command with $args. 
+	 * 
+	 * This will work out which class to use, create an instance of it and, if it 
+	 * completed successfully the command object will move it to self::$completed_commands.
+	 * 
+	 * If the command throws an exception, this is printed by self::print_error()
 	 */
 	static final function dispatch_command($command, $action, $args) {
 		self::$dispatched_commands_counter++;
@@ -107,7 +146,12 @@ class Phake_Dispatcher {
 		//return c($action);
 	}
 	
-	static final function print_error($e) {
+	/**
+	 * Print an error.
+	 * 
+	 * @see Phake_Script::error()
+	 */
+	static final function print_error(Phake_Script_ScriptException $e) {
 		
 		// Move this to ... not sure where??
 		

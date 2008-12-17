@@ -2,15 +2,16 @@
 
 #now:
 	Cleanup
-	-	docs for all classes (using phpdocumentor)
+>	-	docs for all classes (using phpdocumentor)
 	
-	-	check that all header.php/common.php files don't contain crap
-	
-	
-	
-	
+x	-	check that all header.php/common.php files don't contain crap
 
-#n:	
+
+#next:	
+	Context	- this should be == $PWD by default. Unless we're going to work in multiple contexts (i.e. directories) at once?
+	
+	
+	
 	Skel files / placeholders
 		How is this going to work?
 		
@@ -49,24 +50,8 @@
 			}
 			.this separates out the configuration management from the help management.
 	
+
 	
-	
-	
-	
-	Context	- this should be == $PWD by default. Unless we're going to work in multiple contexts (i.e. directories) at once?
-	
-	
-	
-	
-	Dependencies
-		Phake scripts must either exit with "fail" or (by assumption) success
-		
-		Errors are thrown like:
-			$this->error("Some problem");
-		
-		TODO: Reorganise how Dispatcher::print_error works. This should have a nice view somewhere. Could even be a phake script
-		in itself.
-		
 	
 	Trivial thing:
 		Add:

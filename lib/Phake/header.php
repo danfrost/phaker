@@ -1,27 +1,36 @@
 <?php
 /**
+ * Header for Phake source. 
+ * 
+ * @todo 		Merge with lib/header.php
+ * 
  * @package		Phaker
  * @author		Dan Frost <dan@danfrost.co.uk>
  * @copyright 	Copyright (c) 2008, Dan Frost
  */
-// Config
+
+/**
+ * Phake source directory (i.e. lib/Phake/)
+ */
 define('PHAKE_DIR', 			dirname(__FILE__));
 
+/**
+ * Current working directory
+ * 
+ * @todo 	This should be merged into the Phake_Context idea - but see also thoughts on reworking Phake_Context
+ */
 define('PHAKE_PWD', 			$_SERVER['PWD']);
 
 require_once dirname(dirname(__FILE__)).'/header.php';
 
-#require_once PHAKE_DIR.'/class.PhakeDispatcher.php';
-#require_once PHAKE_DIR.'/class.PhakeScript.php';
-#require_once PHAKE_DIR.'/class.PhakeEvent.php';
-#require_once PHAKE_DIR.'/class.p.php';
-
-#require_once PHAKE_DIR.'/class.CliContext.php';
-
 /**
- * \brief	Return the directory in $dirs that $file exists in. Last directory wins.
+ * Return the directory in $dirs that $file exists in. Last directory wins.
+ * 
+ * @todo 	Merge into generic PATH-/file-finding
+ * 
  * @param $file	Filename
  * @param $dirs Array of dirs
+ * @return Filename		Full path to file, if found.
  */
 function findFileInDirs($file, $dirs) {
 	//echo "\nFinding: $file\n";

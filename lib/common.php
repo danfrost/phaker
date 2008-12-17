@@ -1,9 +1,14 @@
 <?php
 /**
- * Shared stuff
+ * Shared functions
+ * @package Phaker
+ * @filesource
  */
 
 if(!function_exists('readline')) {
+	/**
+	 * PHP version of 'readline()' function. 
+	 */
 	function readline($prompt="") {
 	   print $prompt;
 	   $out = "";
@@ -18,10 +23,12 @@ if(!function_exists('readline')) {
 	}
 }
 
+// 
 
-
-// TODO: Make __autoload pluggable so this can be used in other places (e.g. in J5)
-
+/**
+ * Class for finding out where classes were loaded from.
+ * @todo Replace Autoloader with Zend's autoloader
+ */
 class Autoloader {
 	static	$class_cache = array();
 	
@@ -34,7 +41,11 @@ class Autoloader {
 	}
 }
 
-
+/**
+ * Autoloader function for Phake core and Phake scripts. 
+ * @see  Autoloader
+ * @todo Replace Autoloader with Zend's autoloader
+ */
 function __autoload($class_name) {
 	
 	// 1. Try to load normal file
@@ -45,7 +56,6 @@ function __autoload($class_name) {
 		require_once PHAKER_LIB_DIR.$file_name;
 		return;
 	}
-	
 	
 	// 2. If that didn't work, it might be a phake script:
 	
@@ -61,10 +71,39 @@ function __autoload($class_name) {
 	if(file_exists($try_file)) {
 		Autoloader::$class_cache[$class_name] = $try_file;
 		
-		require_once $try_file;
+		// #n: don't include the file if there's no 'class'
+		$php = file_get_contents($try_file);
+		$tokens = token_get_all($php);
+		$contains_class = false;
+		foreach($tokens as $t) {
+			if(@$t[0]==T_CLASS) {
+				$contains_class = true;
+			}
+		}
+		if($contains_class) {
+			require_once $try_file;
+		}
 		
 		if(!class_exists($class_name)) {
-			throw new Exception("'$class_name' does not exist after including likely file: '$try_file'");
+			// If this is the case, we try to create a class on the fly for the command
+			$action_code = file_get_contents($try_file);
+			
+			$x = explode(PHP_EOL, $action_code);
+			if(trim($x[0])=='<?php') {
+				unset($x[0]);
+			}
+			if($x[count($x)]=='?>') {
+				unset($x[count($x)]);
+			}
+			$action_code = implode(PHP_EOL, $x);
+			
+			$class_code = "class $class_name extends Phake_Script { 
+				function index() {
+					$action_code
+				}
+			}";
+			
+			eval($class_code);
 		}
 	} else {
 		print_r(debug_backtrace());

@@ -1,7 +1,7 @@
 <?php 
 
 /**
- * \brief 	This will stop everything.
+ * This will stop everything, complaining of a fatal error.
  * 
  * @package		Phaker
  * @author		Dan Frost <dan@danfrost.co.uk>

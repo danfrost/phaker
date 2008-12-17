@@ -1,17 +1,36 @@
 <?php
 
 /**
+ * A phake script is simply an object that dispatches an action. Child classes of Phake_Script will be able
+ * to dispatch actions and integrate with the wider phake environment.
+ * 
+ * The _Phake Script_ is at the heart of Phaker. Each Phake script is a class that can contain multiple actions.
+ * This is basically the 'controller/action' pattern.
+ * 
  * @package		Phaker
  * @author		Dan Frost <dan@danfrost.co.uk>
  * @copyright 	Copyright (c) 2008, Dan Frost
  */
 class Phake_Script {
 	
+	/**
+	 * Current script being run
+	 */
 	static public $current;
 	
+	/**
+	 * Action to dispatch
+	 */
 	protected	$action;
+	
+	/**
+	 * Arguments for the action
+	 */
 	protected	$args = array();
 	
+	/**
+	 * Constructor. Just sets object properties - doesn't run anything.
+	 */
 	function __construct($action=null, $args=array()) {
 		self::$current = $this;
 		
@@ -27,6 +46,11 @@ class Phake_Script {
 		//$this->dispatchAction();
 	}
 	
+	/**
+	 * Dispatches the action for the script
+	 * 
+	 * @todo 	!! Work out how ob-caching can work with user input. Perhaps global ob-caching management?
+	 */
 	function dispatchAction() {
 		$enable_caching = false;
 		static $depth = 0;
@@ -53,12 +77,27 @@ class Phake_Script {
 		}
 	}
 	
+	/**
+	 * Returns the command and action in CLI-style syntax.
+	 */
 	function __toString() {
 		return $this->get_cmd().':'.$this->action;
 	}
 	
 	/**
-	 * \brief	
+	 * Includes a view file for the current command / action. 
+	 * 
+	 * View files are expected to be in a directory named after the command. 
+	 * E.g. for a class called Phake_Script_Myscript, the view files would sit in a directory
+	 * called _Myscript_:
+	 * <code>
+	 * Myscript.php
+	 * Myscript/help.php
+	 * Myscript/foo.php
+	 * Myscript/bar.php
+	 * </code>
+	 * 
+	 * @return 	HTML	Contents of the view file
 	 */
 	protected function include_action_view() {
 		$dir = Autoloader::get_class_dir(get_class($this));
@@ -72,14 +111,18 @@ class Phake_Script {
 	}
 	
 	/**
-	 * \brief	Return the cmd that $this provides 
+	 * \brief	Return the cmd that the Script object ($this) provides 
 	 */
 	protected function get_cmd() {
 		return str_replace('Phake_Script_', '', get_class($this));
 	}
 	
 	
-	
+	/**
+	 * Throws an exception that can be caught further up
+	 * 
+	 * @exception 	Phake_Script_ScriptException
+	 */
 	final protected function error($msg) {
 		throw new Phake_Script_ScriptException($msg);
 	}

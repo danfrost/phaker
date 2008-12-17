@@ -159,7 +159,7 @@ phake('mysql:dump', list, of, arguments... );
 3. setup "phake" directory. 
 
 
-# Making your ow scripts #
+# Making your own scripts #
 phaker	script:new
 > What's name shall we call it?		>> Used for classname
 > Do you want multiple actions - e.g. mysql:dump, mysql:load... ?

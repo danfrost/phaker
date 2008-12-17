@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * Copies the file to backup
  * 
  * @package		Phaker
  * @author		Dan Frost <dan@danfrost.co.uk>

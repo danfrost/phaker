@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * Runs chmod on a file
  * 
  * @package		Phaker
  * @author		Dan Frost <dan@danfrost.co.uk>

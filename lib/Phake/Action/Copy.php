@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * Copy source file to target 
  * 
  * @package		Phaker
  * @author		Dan Frost <dan@danfrost.co.uk>

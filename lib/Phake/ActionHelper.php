@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * ActionHelper is purely for use in finding the functions in an action class. No external use.
+ * 
  * @package		Phaker
  * @author		Dan Frost <dan@danfrost.co.uk>
  * @copyright 	Copyright (c) 2008, Dan Frost

@@ -1,8 +1,8 @@
 <?php
 
 /**
- * \brief	A ScriptException is anything that the script itself cannot cope with. Other scripts _can_ cope with
- * 		these if they wish.
+ * A ScriptException is anything that the script itself cannot cope with. Other scripts 
+ * _can_ cope with these if they wish.
  *
  * @package		Phaker
  * @author		Dan Frost <dan@danfrost.co.uk>

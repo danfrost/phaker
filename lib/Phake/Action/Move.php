@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * Move the file to target (rename())
  * 
  * @package		Phaker
  * @author		Dan Frost <dan@danfrost.co.uk>
