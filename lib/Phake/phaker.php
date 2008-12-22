@@ -13,8 +13,11 @@
  */
 require_once dirname(__FILE__).'/header.php';
 
-echo Phake_Dispatcher::dispatch_cli($argv);
-
+try {
+	echo Phake_Dispatcher::dispatch_cli($argv);
+} catch(Phake_Script_EndAllException $e) {
+	echo PHP_EOL.PHP_EOL."Fatal error: ".$e->getMessage().PHP_EOL;
+}
 //print_r(Autoloader::$class_cache);
 exit;
 

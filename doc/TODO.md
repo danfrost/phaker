@@ -19,10 +19,13 @@ x	-	check that all header.php/common.php files don't contain crap
 		
 		This class (Phake_Script_Inspector) could contain all the parsing that needs to be done. Tokeniser etc.
 		It can also implement rules for 'bare' scripts that don't have normal docs.
+		
+		This should replace Phake_Inspector
 	
-	Context	- this should be == $PWD by default. Unless we're going to work in multiple contexts (i.e. directories) at once?
+	* Context	- this should be == $PWD by default. Unless we're going to work in multiple contexts (i.e. directories) at once?
 	
 	
+#low priority:
 	
 	Skel files / placeholders
 		How is this going to work?

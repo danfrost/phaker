@@ -47,7 +47,7 @@ class Autoloader {
  * @todo Replace Autoloader with Zend's autoloader
  */
 function __autoload($class_name) {
-	
+//	echo "\nLoading: $class_name\n";
 	// 1. Try to load normal file
 	$file_name = str_replace('_', '/', $class_name).'.php';
 	//echo "::1Loading $class_name from file $file_name\n";
@@ -104,6 +104,10 @@ function __autoload($class_name) {
 			}";
 			
 			eval($class_code);
+			//echo "[$class_name]";
+			if(!class_exists($class_name)) {
+				throw new Exception("$class_name does not exist");
+			}
 		}
 	} else {
 		print_r(debug_backtrace());
