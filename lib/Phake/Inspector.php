@@ -27,10 +27,16 @@ class Phake_Inspector {
 			        if(is_file("$d$file")) {
 						//echo "\nIncluding file: $d$file";
 						$cmd = str_replace('class.PhakeScript_', '', $file);
-						$cmd = str_replace('.php', '', $cmd);
-						$cmd = strtolower($cmd);
-						//echo "\n>	$cmd\n";
-						$commands[] = $cmd;
+						//$cmd = str_replace('.php', '', $cmd);
+						
+						preg_match("/([A-Z][a-zA-Z_]*)\.php/", $cmd, $arr);
+						//echo "\n>	$cmd\n";print_r($arr);
+						if($arr[1]) {
+							$cmd = $arr[1];
+							$cmd = str_replace('.php', '', $cmd);
+							$cmd = strtolower($cmd);
+							$commands[] = $cmd;
+						}
 					}
 			    }
 			    closedir($handle);
