@@ -8,7 +8,11 @@ Next, set your environment variable to contain this directory:
 
 >	export PHAKE_SCRIPTS_DIR=~/myphake/
 
-Finally, create a small class:
+Next, create the file:
+
+>	~/myphake/Myscript.php
+
+And then put the class into it:
 
 >	class PhakeScript_Myscript extends PhakeScript {
 >		function index() {

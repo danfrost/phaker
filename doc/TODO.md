@@ -5,7 +5,15 @@
 >	-	docs for all classes (using phpdocumentor)
 	
 x	-	check that all header.php/common.php files don't contain crap
+	
+	- 	Include "howto" and "beginner's guide" in the doc. Put this in source docs.
+	
+	- 	Add a --verbose option. (subtask: support --flag style options and pass these to the scripts)
+	
+	- 	Provide parameter definition support. E.g. my script needs params x, y and z.. and flags --foo and --bar.
 
+#bug:
+	- "phake help howto" throws exception. Tries to find class Phake_Script_Howto.
 
 #next:
 
@@ -26,6 +34,10 @@ x	-	check that all header.php/common.php files don't contain crap
 	
 	
 #low priority:
+	
+	Markdown parser for web / CLI. So that the help files (etc) look nice
+	
+	Consider using phpDocumentor .pkg format (althogh this might defeat the object)...
 	
 	Skel files / placeholders
 		How is this going to work?

@@ -40,10 +40,8 @@ class Phake_Script_Macro extends Phake_Script {
 				}
 				
 				//$actionStack 
-				/**
-				 * TOOD: Create an action stack that can manage multiple actions. Allow easy removal of actions
-				 * from the action stack. Allow items to be re-ordered. Allow undos/redos. Allow looping of actions.
-				 */
+				//TODO: Create an action stack that can manage multiple actions. Allow easy removal of actions
+				// from the action stack. Allow items to be re-ordered. Allow undos/redos. Allow looping of actions.
 				
 			} else {
 				$commandStack[] = $cmd;
@@ -52,7 +50,7 @@ class Phake_Script_Macro extends Phake_Script {
 		}
 	}
 	
-	function getPrompt() {
+	protected function getPrompt() {
 		return $_SERVER['PWD']." [$this->name] ".($this->is_recording ? '!' : 'p')." $";;
 	}
 	

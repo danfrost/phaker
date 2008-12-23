@@ -33,6 +33,9 @@ class Autoloader {
 	static	$class_cache = array();
 	
 	function get_class_dir($class_name) {
+		//print_r(self::$class_cache);
+		//echo "[".self::$class_cache[$class_name]."]";
+		//echo "[".dirname(self::$class_cache[$class_name])."]";
 		return dirname(self::$class_cache[$class_name]).'/';
 	}
 	
@@ -47,7 +50,7 @@ class Autoloader {
  * @todo Replace Autoloader with Zend's autoloader
  */
 function __autoload($class_name) {
-//	echo "\nLoading: $class_name\n";
+	//echo "\nLoading: $class_name\n";
 	// 1. Try to load normal file
 	$file_name = str_replace('_', '/', $class_name).'.php';
 	//echo "::1Loading $class_name from file $file_name\n";

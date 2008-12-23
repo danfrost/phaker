@@ -49,7 +49,7 @@ if(trim($custom_dirs))	$custom_dirs = ":$custom_dirs";
  * </code>
  * This directory will then be parsed for custom scripts.
  */
-define('PHAKE_SCRIPTS_DIR',		PHAKER_APP_DIR.'/phaker/core:'.PHAKER_APP_DIR.'/phaker/plugin'.$custom_dirs);
+define('PHAKE_SCRIPTS_DIR',		PHAKER_APP_DIR.'/phaker/core:'.PHAKER_APP_DIR.'/phaker/examples'.$custom_dirs);
 
 
 ?>

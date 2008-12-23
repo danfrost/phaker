@@ -35,7 +35,9 @@ class Phake_Inspector {
 							$cmd = $arr[1];
 							$cmd = str_replace('.php', '', $cmd);
 							$cmd = strtolower($cmd);
-							$commands[] = $cmd;
+							if($cmd!='phaker') {
+								$commands[] = $cmd;
+							}
 						}
 					}
 			    }
