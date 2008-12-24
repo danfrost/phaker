@@ -74,6 +74,10 @@ class Phake_File {
 	function __toString() {
 		return $this->getFullPath();
 	}
+	
+	function contents() {
+		return file_get_contents($this->file);
+	}
 }
 
 /**

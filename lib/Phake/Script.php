@@ -25,6 +25,7 @@ class Phake_Script {
 	
 	/**
 	 * Arguments for the action
+	 * @todo 	replace this with args like file objects
 	 */
 	protected	$args = array();
 	
@@ -42,6 +43,9 @@ class Phake_Script {
 		$this->action = $action;
 		
 		$this->args = $args;
+		
+		// Just get the class loaded
+		__autoload('Phake_File');
 		
 		//$this->dispatchAction();
 	}

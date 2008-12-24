@@ -173,11 +173,11 @@ class Phake_Dispatcher {
 		echo PHP_EOL.PHP_EOL."Failed: ";
 		
 		$cmds = array();
-		$i=0;
+		$j=1;
 		foreach(self::$dispatched_commands as $cmd) {
 			$i++;
 			$cmds[] = "  [$i]  ".str_pad(
-				( (str_repeat('> ', $i)).
+				( (str_repeat('> ', $j++)).
 				((string) $cmd)), 30).((($i)==count(self::$dispatched_commands)? ' !! Exception: '.$e->getMessage() : ''));
 		}
 		echo PHP_EOL.implode(PHP_EOL, $cmds);

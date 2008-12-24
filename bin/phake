@@ -2,8 +2,8 @@
 # Add this to your $PATH
 #
 
-clear
-
+#clear
+echo
 dir=`dirname $0`
 
 file=$dir"/../lib/Phake/phaker.php "$*
