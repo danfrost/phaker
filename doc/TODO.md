@@ -29,33 +29,7 @@ x	-	check that all header.php/common.php files don't contain crap
 				--option1	true|false	docs here...
 				--option2	true|false	docs ....
 		
-		Parser:
-			$p = new Phake_PhpParser('Class_Name');
-			$p->getMethods()
-			
-			$m = $p->getMethod('mymethod');
-			$m->getParameters();
-			Array(
-				new Phake_PhpParser_Method_Parameter(
-					'name',
-					'type',
-					'default'
-					),
-				
-				new Phake_PhpParser_Method_Parameter(
-					'name',
-					'type',
-					'default'
-					)
-				
-				)
-		
-		*Simpler:
-		
-			$p = new Phake_ClassInspector('Class_Name');
-				>> this parses the class. Store internally.
-			
-		
+		**Do this with the PHP5 reflection classes -- started in Inspector.php**
 		
 		
 		*How to do optional things??*
