@@ -19,7 +19,7 @@ class Phake_Script_Help extends Phake_Script {
 	/**
 	 * Default help message
 	 */
-	function index($command, $req1, $verbose=true, $blar=null) {
+	function index() {
 		phake('phaker welcome-short');
 		phake('help', 'commands', @$this->args[0]);
 	}
