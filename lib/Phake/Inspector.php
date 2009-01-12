@@ -9,7 +9,7 @@ class Phake_Reflection {
 	
 	function __construct($class_name) {
 		$this->class_name = $class_name;
-		__autoload($class_name);
+		Autoloader::load($class_name);
 	//	$this->parse();
 		
 		// get public methods

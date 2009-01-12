@@ -13,6 +13,7 @@ function dbg($msg) {
 	echo "\n  $msg";
 }
 
+
 /**
  * Location of Phaker docs
  */
@@ -30,6 +31,57 @@ define('PHAKER_LIB_DIR', 	dirname(__FILE__).'/');
 
 # Shared code
 require_once	dirname(__FILE__).'/common.php';
+
+
+// Include Zend things
+
+ini_set('include_path',ini_get('include_path').':'.dirname(dirname(__FILE__)).'/');
+
+require_once 'Zend/Loader.php';
+
+class Phaker_AutoLoader extends Zend_Loader
+{
+    public static function loadClass($class, $dirs = null)
+    {
+		//echo "\n!! Loading: $class\n";
+		if(substr($class, 0, 5)=='Phake') {
+			Autoloader::load($class);
+		} else {
+        	parent::loadClass($class, $dirs);
+		}
+    }
+
+    public static function autoload($class)
+    {
+        try {
+            self::loadClass($class);
+            return $class;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+}
+
+Zend_Loader::registerAutoload('Phaker_AutoLoader');
+
+//Zend_Loader::registerAutoload();
+
+$logger = new Zend_Log();
+$writer = new Zend_Log_Writer_Stream('php://output');
+
+$logger->addWriter($writer);
+
+
+
+
+$logger->log('testing', Zend_Log::EMERG);
+
+
+
+
+
+
+
 
 # Global phake scripts
 

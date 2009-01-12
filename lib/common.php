@@ -42,6 +42,10 @@ class Autoloader {
 	function get_class_file($class_name) {
 		return self::$class_cache[$class_name];
 	}
+	
+	static function load($class_name) {
+		Phaker__autoload($class_name);
+	}
 }
 
 /**
@@ -49,7 +53,7 @@ class Autoloader {
  * @see  Autoloader
  * @todo Replace Autoloader with Zend's autoloader
  */
-function __autoload($class_name) {
+function Phaker__autoload($class_name) {
 	//echo "\nLoading: $class_name\n";
 	// 1. Try to load normal file
 	$file_name = str_replace('_', '/', $class_name).'.php';

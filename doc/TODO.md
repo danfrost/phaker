@@ -1,5 +1,20 @@
 # TODO - Tasks #
 
+#now
+#next:
+
+Zend - where should it be loaded?
+
+Autoloader - where should it go?
+
+Debugging logger - where should this be included?
+
+Output stuff to user (should this just be in views??)	
+
+Cli parser - use Zend
+
+
+
 #now:
 	Cleanup
 x	-	docs for all classes (using phpdocumentor)
@@ -9,7 +24,37 @@ x	-	check that all header.php/common.php files don't contain crap
 >	- 	Include "howto" and "beginner's guide" in the doc. Put this in source docs.
 	
 >	- 	Add a --verbose option. (subtask: support --flag style options and pass these to the scripts)
-	
+		* Requires setting up logging.
+		x2 types of logging:
+		Core:
+			loading classes, doing internal things, finding files etc
+			
+			E.g.
+			>	Dispatching "some script"
+			>	Inspecting "SomeClass::index()" - found arguments $x, $y, $z
+			>	Running action "..._Chmod" with argumnents x, y, z
+			
+			* These can all use a standard logging system like Zend's. Easier API though:
+			Phake_Syslog::error()
+			Phake_Syslog::debug()
+			... etc ...
+		
+		Script:
+			creating files, touching / editing files, renaming,
+			deleting, ...
+			
+			>	[script:action]	Doing something...
+			>	[touch]			Creating "blar.txt"				
+			>	[move]			Moving "blar.txt" to "something.asdf"	
+			>	[mkdir]			Making "/path/to/dir"
+			>	[script:action]	Done something.
+			
+			These would come from action files, scripts etc.
+			
+			* This isn't a system log as such - it's for getting message back to the user.
+			
+			Phake_Log::...
+			
 >	- 	Provide parameter definition support. E.g. my script needs params x, y and z.. and flags --foo and --bar.
 		Do this in native PHP:
 		 	function myaction($param1, $param2...);
@@ -55,7 +100,8 @@ x	-	check that all header.php/common.php files don't contain crap
 	-	format help msgs like git (git help -a)
 	
 	-	Add better logging (Zend?)
-	
+		* requires using Zend
+		
 	- 	parse scripts and remove / disable direct file access. - reserved functions will be fopen, move, rename ...
 		(Note: checkout out function re-defining, and it isn't supported so we'll just have to parse.)
 		
@@ -68,6 +114,10 @@ x	-	check that all header.php/common.php files don't contain crap
 		--dry-run		- don't allow any file actions to do anything
 		--file-summary	- show files-changed summary at the end of the script
 		--interactive	- ask the user before doing each file action
+		* requires using a CLI parser (Zend??)
+	
+	- 	Include zend 
+		* requires using Zend for autoloading
 		
 	-	Write text formatting style guide. Implement this in the code - humans shouldn't have to do anything.
 

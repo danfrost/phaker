@@ -45,7 +45,7 @@ class Phake_Script {
 		$this->args = $args;
 		
 		// Just get the class loaded
-		__autoload('Phake_File');
+		Autoloader::load('Phake_File');
 		
 		//$this->dispatchAction();
 	}
