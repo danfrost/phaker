@@ -124,10 +124,96 @@ class Phake_Dispatcher {
 		if(!class_exists($class)) {
 			throw new Exception("Command '$command' unknown");
 		}
+        $action = str_replace('-', '_', $action);
+		
+		// Begin: parse args 
+		/*
+		1. get args from class
+		2. parse given args
+		3. if args don't match, show usage
+		*/
+		
+		// Find required...
+		$reflect	= new ReflectionClass($class);
+		$method     = $reflect->getMethod($action);
+		$paramObjs 	= $method->getParameters();
+		$params		= array();
+		
+		// Create the config for Zend_Console_Getopt
+		foreach($paramObjs as $p) {
+			// Type
+			$name		= $p->getName();
+			$default	= $p->isDefaultValueAvailable()	? $p->getDefaultValue() : null;
+			
+			$required	= $p->isOptional();
+			
+			// work out type
+			$type = null;
+			if($default===true || $default===false) {
+				$type = 'b';
+				$default = $default===true ? 'true' : 'false';
+			} else
+			if($default==="") {
+				$type = 's';
+				$default = 'empty string';
+			} else
+			if($default===0 || is_int($default)) {
+				$type = 'i';
+				$default = $default===0 ? '0': $default;
+			}
+			
+			$params[$name.'-'.$type] = "Docs for $name. [$default]";
+			
+		}
+		
+		$argv = $GLOBALS['argv'];
+		unset($argv[0], $argv[1]);
+		
+		$opts = new Zend_Console_Getopt($params, $argv);
+
+		try {
+			$opts->parse();
+		} catch(Zend_Console_Getopt_Exception $e) {
+            
+			// A specific field was wrong
+			//print_r($e);
+			//echo $e->getUsageMessage();
+            
+			echo "\nPRINT ERROR!\n";
+			echo "\nPRINT USAGE!\n";
+		}
+		// Check that required fields are filled
+
+		$args = array();
+		
+		// Remaining arguments are used ahead of asigned arguments
+		try {
+		    $remain = $opts->getRemainingArgs();
+	    } catch(Exception $e) {}
+		$count = 0;
+		foreach(array_keys($params) as $a) {
+			$x = explode('-',$a);
+			$a = $x[0];
+			
+			$r = array_shift($remain);
+			//echo "\n.$r";
+			if($r) {
+			    $value = $r;
+			} else {
+			    $value = $opts->$a;
+			}
+			//echo "\nArgument $a = [".($value).']';
+			$args[$a] = $opts->$a;
+			
+			$count++;
+		}
+		
+		// End: parse args
+		
+		
 		
 		#dbg("Running: $command::$action");
 		
-		$action = str_replace('-', '_', $action);
 		try {
 			$obj = new $class($action, $args);
 			self::$dispatched_commands[$count] = & $obj;

@@ -30,7 +30,17 @@ class Phake_Script_Dummy extends Phake_Script {
 	function index() {
 		echo "Hello there ... you can do things here... ";
 	}
-
+    
+    function params($p1=0,$p2="",$p3=true) {
+        echo "
+Hi - this is a demo of simple params.
+    p1 = $p1
+    p2 = $p2
+    p3 = $p3
+        
+        ";
+    }
+    
 	/**
 	 * test action 1
 	 */

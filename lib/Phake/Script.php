@@ -66,7 +66,15 @@ class Phake_Script {
 		$depth++;
 		
 		$action = $this->action;
-		$this->$action();
+		
+		$args = $this->args;
+		
+		$args = '"'.implode('", "', $args).'"';
+		
+		$php = '$this->$action('.$args.');';
+		eval($php);
+		
+		//$this->$action();
 		$this->include_action_view();
 		
 		$depth--;

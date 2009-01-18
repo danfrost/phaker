@@ -11,7 +11,8 @@ function blue($a) {
 	return implode(PHP_EOL, $arr);
 }
 
-/**
+
+/*
  * @package Phaker
  */
 class Phake_Script_Help extends Phake_Script {
@@ -19,11 +20,33 @@ class Phake_Script_Help extends Phake_Script {
 	/**
 	 * Default help message
 	 */
-	function index() {
+	function index(
+	        $command='',
+			$somevar=required_int,
+			$a_bool=false, // use true / false 
+			$a_string="", 
+			$a_int=0,
+			$an_int=1) {
+		/*
+		$int = 0
+		$string = ""
+		*/
 		phake('phaker welcome-short');
-		phake('help', 'commands', @$this->args[0]);
+		if($command) {
+		    $this->commands;
+		}
+		//phake('help', 'commands', @$command);
 	}
 	
+	function testing(
+	    $try=0,
+	    $message=""
+	    ) {
+	    for($i=0;$i<=$try;$i++) {
+	        echo "\nTry: $i - $message";
+	    }
+	    echo "\nDone";
+	}
 	/**
 	 * How to create a phake script
 	 */
@@ -37,7 +60,7 @@ class Phake_Script_Help extends Phake_Script {
 	/**
 	 * List available commands
 	 */
-	function commands() {}
+	private function commands() {}
 	
 	/**
 	 * \brief	Show the config

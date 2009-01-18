@@ -20,9 +20,6 @@ foreach ($cmds as $c) {
 	$cCap{0} = strtoupper($cCap{0});
 	$path = Autoloader::get_class_file("Phake_Script_$cCap");
 	
-	//echo("!Path: /$path:"." for class 'Phake_Script_$cCap'");
-	//$path = Autoloader::get_class_dir()
-	
 	if($verbose) {
 		$doc = Phake_Inspector::getCommandDocs($c);
 		echo PHP_EOL.$doc.PHP_EOL;
@@ -35,10 +32,6 @@ foreach ($cmds as $c) {
 		$dir = $x[count($x)-1];
 		echo red( PHP_EOL.str_pad("  $c", 15)).blue( "[from dir: .../$dir]" );
 	}
-	//$path = str_replace(dirname($path), '>>', $path);
-	
-	//echo PHP_EOL."Loaded from $dir | $path".PHP_EOL;
-	//echo PHP_EOL."    Loaded from dir /$dir";
 	
 	foreach ($actions as $a) {
 		if($a=='index') {
@@ -48,6 +41,5 @@ foreach ($cmds as $c) {
 		}
 		echo ("    ".str_pad($action, 15)."\t".Phake_Inspector::getActionDocs($c,$a) ).PHP_EOL;
 	}
-	//echo PHP_EOL;
 }
 ?>
