@@ -36,8 +36,30 @@ function phake($controller, $action=null) {
 	Phake_Dispatcher::dispatch_command($controller, $action, $args);
 }
 
+// Move this to somewhere else
+
 /**
- * Dis
+ * Holds the core settings - verbose, help, quiet, ...
+  * (Could also hold all other settings??)
+ */
+class Phake_Options {
+    
+    private static $options = array();  
+    
+    public function set($option, $value) {
+        self::$options[$option] = $value;
+    }
+    
+    public function get($option) {
+        return self::$options[$option];
+    }
+    
+    
+}
+
+
+/**
+ * 
  * 
  * @package		Phaker
  * @author		Dan Frost <dan@danfrost.co.uk>
@@ -84,7 +106,69 @@ class Phake_Dispatcher {
 			$cli_command = 'help';
 		}
 		
-		return self::dispatch_command($cli_command, $cli_action, $cli_args);
+		try {
+		    $ret = self::dispatch_command($cli_command, $cli_action, $cli_args);
+	    } catch(Phake_Script_EndAllException $e) {
+	        
+	    }
+		
+		if(Phake_Options::get('summary')) {
+		    echo PHP_EOL.'Show a summary'.PHP_EOL;
+		}
+		
+		
+		if(Phake_Options::get('notify')) {
+		    
+		    $recipient = Phake_Options::get('notify');
+		    Phake_Log::log("Sending a notification to: <$recipient>");
+		    
+		    $cmds = array();
+    		$i=0;
+    		foreach(self::$completed_commands as $cmd) {
+    			$i++;
+    			$cmds[] = "  [$i]  ".str_pad(
+    				( (str_repeat('> ', $cmd->call_depth-1)).
+    				((string) $cmd)), 30);
+    		}
+    		
+    		$msg = PHP_EOL.implode(PHP_EOL, $cmds).PHP_EOL;
+    		
+    		$tr = new Zend_Mail_Transport_Sendmail('-fdan@danfrost.co.uk');
+            Zend_Mail::setDefaultTransport($tr);
+            
+            $mail = new Zend_Mail();
+            $mail->setBodyText($msg);
+            $mail->setFrom('dan@danfrost.co.uk', 'Dan');
+            $mail->addTo('danielfrost@gmail.com', 'DF');
+            $mail->setSubject('Phaker');
+            $mail->send();
+    		
+    		/*
+            $mail = new PHPMailer();
+
+            $mail->From = "phaker@3ev.com";
+            $mail->FromName = "Phaker";
+            $mail->AddAddress($recipient);
+            
+            $mail->IsHTML(false);
+            
+            $mail->Subject = "Phake report: ...";
+            $mail->Body    = $msg;
+            #$mail->AltBody = "This is the body in plain text for non-HTML mail clients";
+            
+            if(!$mail->Send())
+            {
+               echo "Message could not be sent. <p>";
+               echo "Mailer Error: " . $mail->ErrorInfo;
+               die();
+            } else {
+                echo "EMAIL SENT";
+            }
+            print_r($mail);
+    		*/
+    		die(__METHOD__);
+            
+		}
 	}
 	
 	/**
@@ -121,24 +205,41 @@ class Phake_Dispatcher {
 		$class = 'Phake_Script_'.$command;
 		//echo "\nCommand: $class\n";
 		
+		$use_args = array();
+		
 		if(!class_exists($class)) {
-			throw new Exception("Command '$command' unknown");
+			// log a error: throw new Exception("Command '$command' unknown");
+			$use_args[] = $class;
+			$class = 'Phake_Script_Help';
 		}
         $action = str_replace('-', '_', $action);
 		
-		// Begin: parse args 
-		/*
-		1. get args from class
-		2. parse given args
-		3. if args don't match, show usage
-		*/
+		foreach($args as $k=>$v) {
+		    $use_args[$k] = $v;
+		}
+		$args = $use_args;
+		
+		
+		
 		
 		// Find required...
+		
+		// BEGIN: Loading params for parser
 		$reflect	= new ReflectionClass($class);
-		$method     = $reflect->getMethod($action);
+		try {
+		    $method     = $reflect->getMethod($action);
+	    } catch(ReflectionException $e) {
+	        $method     = $reflect->getMethod('index');
+	    }
 		$paramObjs 	= $method->getParameters();
 		$params		= array();
 		
+		$params['verbose|v-b'] = 'Verbose. Linked to Phake_Log';
+        $params['help|h-b'] = 'Help. Linked to Phake_Help';
+
+        // Other core options:
+        $params['notify|n-s'] = 'Notify <email>';
+        
 		// Create the config for Zend_Console_Getopt
 		foreach($paramObjs as $p) {
 			// Type
@@ -165,49 +266,80 @@ class Phake_Dispatcher {
 			$params[$name.'-'.$type] = "Docs for $name. [$default]";
 			
 		}
+		// End: Loading params for parser
 		
+		
+		// BEGIN: Prepare args for parser
 		$argv = $GLOBALS['argv'];
 		unset($argv[0], $argv[1]);
+		// END: Prepare args for parser
 		
-		$opts = new Zend_Console_Getopt($params, $argv);
-
+		
+		
+		
+		// BEGIN: Run the parser
+		$opts = new Phake_Console_Getopt($params, $argv);
 		try {
 			$opts->parse();
 		} catch(Zend_Console_Getopt_Exception $e) {
             
 			// A specific field was wrong
 			//print_r($e);
-			//echo $e->getUsageMessage();
+			echo $e->getUsageMessage();
             
 			echo "\nPRINT ERROR!\n";
 			echo "\nPRINT USAGE!\n";
 		}
-		// Check that required fields are filled
-
-		$args = array();
+		// END: Run the parser
 		
-		// Remaining arguments are used ahead of asigned arguments
+		
+		// 
+		// BEGIN: Remaining arguments are used ahead of asigned arguments
 		try {
 		    $remain = $opts->getRemainingArgs();
 	    } catch(Exception $e) {}
-		$count = 0;
+	    // END: Remaining arguments are used ahead of asigned arguments
+	    
+	    
+	    // BEGIN: Deal with params
+	    
+	    // > BEGIN: Core things - Verbosity, help etc. 
+	    if($opts->verbose) {
+	        Phake_Log::$level   = Phake_Log::verbose;
+	        Phake_Options::set('verbose', true);
+	    }
+	    
+	    // ...
+	    
+	    if($opts->notify) {
+	        Phake_Options::set('notify', $opts->notify);
+        }
+	    
+	    // > END: Core things - Verbosity, help etc. 
+	    
+	    // > END: Prepare args for the command
+		$args = array();
+		//print_r($opts);
+        
+		$arg_count = 0;
 		foreach(array_keys($params) as $a) {
 			$x = explode('-',$a);
 			$a = $x[0];
 			
 			$r = array_shift($remain);
-			//echo "\n.$r";
-			if($r) {
+			
+			if(trim($r)) {
 			    $value = $r;
 			} else {
 			    $value = $opts->$a;
 			}
 			//echo "\nArgument $a = [".($value).']';
-			$args[$a] = $opts->$a;
+			$args[$a] = $value;
 			
-			$count++;
+			$arg_count++;
 		}
-		
+	    // > END: Prepare args for the command
+	    		
 		// End: parse args
 		
 		

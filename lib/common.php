@@ -117,7 +117,7 @@ function Phaker__autoload($class_name) {
 			}
 		}
 	} else {
-		print_r(debug_backtrace());
+		//print_r(debug_backtrace());
 		throw new Exception("$class_name does not exist");
 	}
 }

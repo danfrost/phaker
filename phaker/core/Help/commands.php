@@ -1,9 +1,8 @@
 <?php
 
-
 $verbose = false;
-if($this->args[0]) {
-	$cmds = array($this->args[0]);
+if($command) {
+	$cmds = array($command);
 	$verbose = true;
 } else {
 	$cmds = Phake_Inspector::getScripts();
@@ -24,7 +23,7 @@ foreach ($cmds as $c) {
 		$doc = Phake_Inspector::getCommandDocs($c);
 		echo PHP_EOL.$doc.PHP_EOL;
 		
-		echo PHP_EOL."  Actions available for '$c':";
+		echo PHP_EOL."  Actions available for '$c':".PHP_EOL;
 	} else {
 		$dir = dirname($path);
 		$dir = str_replace('//', '/', $dir);

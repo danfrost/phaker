@@ -35,9 +35,9 @@ require_once	dirname(__FILE__).'/common.php';
 
 // Include Zend things
 
-ini_set('include_path',ini_get('include_path').':'.dirname(dirname(__FILE__)).'/');
+ini_set('include_path',ini_get('include_path').':'.dirname(dirname(__FILE__)).'/'.':'.dirname(dirname(__FILE__)).'/lib/');
 
-require_once 'Zend/Loader.php';
+require_once 'lib/Zend/Loader.php';
 
 class Phaker_AutoLoader extends Zend_Loader
 {
@@ -65,16 +65,6 @@ class Phaker_AutoLoader extends Zend_Loader
 Zend_Loader::registerAutoload('Phaker_AutoLoader');
 
 //Zend_Loader::registerAutoload();
-
-$logger = new Zend_Log();
-$writer = new Zend_Log_Writer_Stream('php://output');
-
-$logger->addWriter($writer);
-
-
-
-
-$logger->log('testing', Zend_Log::EMERG);
 
 
 

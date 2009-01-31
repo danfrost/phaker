@@ -87,6 +87,8 @@ The user must have the option to undo the entire script.
 
 A log mode must be available. The log must contain *everything* that happens in the script.
 
+The log must be viewable after the script is run - e.g. view logs of scripts run yesterday.
+
 A 'notification' method must be available. The notification method would be chosen by the user at run-time,
 but can be configured by the script writer. (This is the 'tell_me(...)' idea).
 
@@ -98,6 +100,99 @@ help:commands - List all commands
 
 welcome messages
 
+## Standard options ##
+
+The following options are available for *all* scripts.
+
+These are part of the core.
+
+### --verbose ###
+
+Show extra detail. This will output messages sent to Phake_Log::log()
+
+
+### --quiet ###
+
+Suppress *all* output. This will use output buffering to suppress *all* output from *all* scripts.
+
+### --log-file ###
+
+--log-file=path/to/file
+
+This will push all output to the log-file. 
+
+### --summary ###
+
+Print a summary at the end of the script.
+
+Format is:
+
+>	Summary:
+>	
+>	Script:	'phake foo:bar --summary' was run
+>	Date:	2008 Jan 12th 	12:13
+>	Duration:	1hour 2mins 30seconds
+>	
+>	Scripts executed:
+>	[1]	 	phake blar
+>	[2]	 	phake foo
+>	- [3]	phake bar
+>	
+>	Notifications:
+>		Sent report to someone@example.com
+>	
+
+### --notify ###
+
+Usage:
+
+>	--notify someone@example.com
+
+This will send a summary of the script to the email address when it is complete.
+
+The sender will need option SMTP settings in case its sending from a crappy server (e.g. 1and1).
+
+Other useful options would include:
+
+> --include-log   - include the full logs as *an attachment*
+> --message       - a message that will be included at the top of the email to explain what it's about
+
+Also - could provide a 'digest' option, so the recipient only gets x1 email a day instead of x1 per cronjob run.
+
+### --history (Rename this?) ###
+
+Show all the phake scripts that have been run.
+
+$ phake --history
+
+  id      |  Date and time | Script      | Result   | Location
+  ============================================================
+  [sha1]  | 2009 Jan 11th | dummy       | Pass     | /path/to/blar
+  [sha1]  | 2009 Jan 11th | something   | Pass     | /asdf/asdf
+
+Allows the user to see everything that phake has executed in the past.
+
+How could this link into logs - could provide log for all scripts:
+> phake --log sha1
+E.g.
+> phake --log abc123
+
+This information should be stored in a sqlite DB:
+> ~/.phake/db/phaker.db
+
+
+
+## Uniqueness of core options ###
+
+These options cannot be declared by any functions, but can be used.
+
+# ~/.phake/ # 
+
+Contains:
+- logs
+- settings
+- phake db (sqlite3)
+
 # Plugin scripts #
 
 @todo: add to this.
@@ -107,6 +202,141 @@ welcome messages
 All core functionality must be behaviour-tested.
 
 (There isn't a requirement to test individual scripts.)
+
+
+
+# Documenting phake scripts #
+
+It must be easy to document scripts. 
+
+All documentation is held in class or function documentation.
+
+
+
+# Code structure #
+
+
+
+## Context ##
+
+Currently: Not clear exactly what this does
+
+
+## Dispatcher ##
+
+### Dispatch from CLI (::dispatch_cli()) ###
+- This is used *only* in the phaker.php script.
+
+The dispatcher is called from the phaker script, which passes the command line arguments to it:
+
+Removes the 'php phaker' stuff and passes just the interesting stuff (i.e. user arguments).
+
+> Phake_Dispatcher::dispatch_cli($argv)
+
+Cli dispatcher then parses $argv into an array. 
+
+### Dispatch from PHP (::dispatch_command()) ###
+
+Used to parse calls to phake() - this might just use the _cli parser??
+
+### Dispatch parser (private) ###
+
+This function parses the arguments into an object that contains command, action 
+and arguments.
+
+Params:
+  $dispatch_array   An array that may contain command and action and args
+
+  Pull command from the beginning of the array.
+  Pull action from beginning of array
+
+If the command isn't known, defaults to self::default_command (help) and the
+command is pushed onto the $arguments array.
+
+!! Q: How do we find out if the command is known without loading. Perhaps the __autoload()er can
+!! use something like Phake_Finder::find_class($class_name), which this class can also use??
+
+If the action isn't known, defaults to self::default_action (index) and the
+action is pushed onto the $arguments array.
+
+All remaining arguments are added to the $arguments array.
+
+This returns an object that defines what is to be dispatched:
+  new Phake_Dispatcher_Script (
+    $command,
+    $action,
+    $args)
+
+### Dispatcher (private) ###
+
+Does the actual dispatching of the command.
+
+Requires argument:
+  Phake_Dispatcher_Script (as returned by the parser argument, above)
+
+This will create the command object, pick the method and use reflection to
+find the method's arguments.
+
+The the passed arguments known, the default ones are added to the configuration:
+  verbose
+  quiet
+  notify
+  ... etc 
+
+If the method asks for these arguments, the it will be passed them - but only 
+if the method's declaration AGREES with the default arguments. E.g. if the 
+method declares "$verbose=''" (i.e. a string), then an exception is thrown:
+  (Phake..ScriptIsBad)
+
+With the required arguments known, the passed arguments are checked using the 
+Zend Opt parser.
+
+
+
+### Helper function 'phake()' ###
+
+Can be used from anywhere in php - although the helper function will probably be used most of the time.
+
+
+
+
+## Inspector / Reflector ##
+
+Get information about Scripts:
+* Methods
+* Documentation
+* Arguments for Methods
+...
+
+## Log ##
+
+Phake_Log
+
+Logging for
+  general messages
+  debugging
+  ...
+  Use standard log levels
+
+## File handling ##
+
+File.php
+
+File_Collection.php
+
+### File actions ###
+
+chmod, copy, mkdir, mv, remove....
+
+Either undoable or not-undoable
+
+## Autoloader ##
+
+Loads all Phaker_... files
+
+Loads all Zend_... files
+
+Tries to load any phake scripts from environment variable
 
 
 

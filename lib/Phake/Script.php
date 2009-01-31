@@ -55,8 +55,8 @@ class Phake_Script {
 	 * 
 	 * @todo 	!! Work out how ob-caching can work with user input. Perhaps global ob-caching management?
 	 */
-	function dispatchAction() {
-		$enable_caching = false;
+	function dispatchAction($action=null) {
+	    $enable_caching = false;
 		static $depth = 0;
 		
 		if($depth==0 && $enable_caching) {
@@ -65,13 +65,15 @@ class Phake_Script {
 		
 		$depth++;
 		
-		$action = $this->action;
+		$action = $action ? $action : $this->action;
+		Phake_Log::log("Dispatching action '$action', with args=".implode(', ', $this->args));
 		
 		$args = $this->args;
 		
 		$args = '"'.implode('", "', $args).'"';
 		
 		$php = '$this->$action('.$args.');';
+		Phake_Log::log("Php: $action() : $php, args  = ".serialize($this->args));
 		eval($php);
 		
 		//$this->$action();
@@ -116,7 +118,12 @@ class Phake_Script {
 		$view_file = $dir.$this->get_cmd().'/'.$this->action.'.php';
 		
 		if(!file_exists($view_file)) {
-			return;
+		    return;
+		}
+		
+		// This bit lets the view files behave as though they were inside the original action method.
+		foreach($this->args as $k=>$_) {
+		    $$k = & $this->args[$k];
 		}
 		
 		require $view_file;

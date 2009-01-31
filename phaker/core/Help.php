@@ -20,22 +20,13 @@ class Phake_Script_Help extends Phake_Script {
 	/**
 	 * Default help message
 	 */
-	function index(
-	        $command='',
-			$somevar=required_int,
-			$a_bool=false, // use true / false 
-			$a_string="", 
-			$a_int=0,
-			$an_int=1) {
-		/*
-		$int = 0
-		$string = ""
-		*/
-		phake('phaker welcome-short');
-		if($command) {
-		    $this->commands;
-		}
-		//phake('help', 'commands', @$command);
+	function index($commands=false) {
+		if(!$commands) {
+		    phake('phaker welcome');
+	    } else {
+		    phake('phaker welcome-short');
+		    phake('help', 'commands');
+	    }
 	}
 	
 	function testing(
@@ -60,10 +51,10 @@ class Phake_Script_Help extends Phake_Script {
 	/**
 	 * List available commands
 	 */
-	private function commands() {}
+	function commands() {}
 	
 	/**
-	 * \brief	Show the config
+	 * Show the config
 	 */
 	function config() {
 		phake('phaker welcome-short');
