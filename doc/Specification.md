@@ -215,11 +215,148 @@ All documentation is held in class or function documentation.
 
 # Code structure #
 
+## compatibility.php ##
+
+Contains any functions that might not be present in PHP. 
+
+readline()
 
 
-## Context ##
+## boostrap.php (perhaps call this 'header.php'??) ##
 
-Currently: Not clear exactly what this does
+This will replace header.php and common.php.
+
+- Define all environment variables
+- Setup the autoloader
+
+If __autoloader is already defined, we throw an exception (Phake_Autoloader_Exception("Cannot setup the phake environment")).
+
+This does *NOT* dispatch the action.
+
+This can be used for including phake in normal PHP scripts - therefore, this must create an environment that doesn't break other environments.
+
+
+Environment variables setup by bootstrap
+
+  PHAKER_DIR_SRC    path to Phake
+  PHAKER_DIR_LIB    path to Phake's lib/ directory
+  
+
+
+## phaker.php ##
+
+This is the CLI interface script.
+
+This is *only* for dispatching the CLI.
+
+Contents will only be:
+
+  require bootstrap.php
+  Phake_Dispatcher::dispatch_cli()
+
+
+## Autoloader ##
+
+Responsible for loading all Phake Scripts.
+
+This is registered in bootstrap.php.
+
+Main methods:
+
+
+/**
+ * Sets the directories that we'll look in for class files
+ */
+Phake_Autoload::set_paths($list_of_dirs);
+
+/**
+ * Uses the stuff below
+ */
+Phake_Autoload::__autoloader($class_name);
+
+static $class_file_cache  = array();
+
+/**
+ * Calls get_class_file and includes the file
+ */
+Phake_Autoload::load_class($class_name);
+
+/**
+ * Returns file in which the class is declared. Will call find_class_file if not yet held in cache
+ * @throws Phake_Autoload_UnknownClassException (if find_class_file returns true but class is still not known)
+ * returns filename (full path)
+ */
+Phake_Autoload::get_class_file($class_name);
+
+/**
+ * Finds which file the class is in
+ * @throws Phake_Autoload_UnfindableClassException
+ * returns true
+ */
+Phake_Autoload::find_class_file($class_name)
+
+
+
+### The autoloaders ###
+
+The is more than 1 type of thing to load:
+  1. Phake core files
+  2. Phake scripts
+  3. Zend
+  4. Other stuff
+
+Phake_Autoload_Loader is a generic class for loading classes. 
+Methods:
+  ::class_is_known($class_name)
+  This returns true if the loader thinks it can load the required class. If more than one loader returns true, this can trigger a loader exception.
+  
+  ::load_class($class_name)
+  This method doesn't have to do anything, but if $class_name exists after running it, we won't try any of the others.
+
+Phake_Autoload_Loader_PhakeCore loads core phake classes. Loads everything from the PHAKE_DIR_LIB.
+
+Phake_Autoload_Loader_PhakeScript loads phake scripts - uses the 'PHAKE_SCRIPTS_DIR' environment variable.
+
+(Later on, loaders can be written for J5 etc)
+
+
+## Present working directory (Context) ##
+
+*Currently: Not clear exactly what this does*
+
+"Phake_PWD" (Previously called Phake_Context) is where the phake script is running. 
+
+All file actions MUST use the PWD - therefore all file actions are relative.
+
+All interaction with the file system - reads, writes etc - will go through this to enable phaker to control everything that's going on. It is phaker's sandbox.
+
+Only one PWD can exist at once. (This might be changed in the future, but all file actions, scripts etc should assume that they can only get the 'current' PWD.)
+
+The current PWD is got by:
+
+  $content = Phake_PWD::get()
+
+By default, the PWD will be the CLI current working directory. 
+This can be changed ONLY in the initial dispatch with the --pwd flag. (Perhaps rename this?)
+
+Phake_PWD honours the --pretend flag to disable all file actions. 
+
+Phake_PWD::__toString() returns the string version of the working directory - though phake-scripers are discouraged from using this directly.
+
+
+Program flow:
+
+  phaker.php
+  > Phake_Dispatcher::...cli()
+      (This will set the --pwd flag, if present)
+  > > Phake_PWD::get()
+      (This will read the --pwd flag, if present. Otherwise, it'll use $_...PWD)
+      ...All script can now get the PWD
+
+!! Phake_File::$context is NOT deprecated but must be renamed PWD.
+!! Phake_Action::$context is NOT deprecated but must be renamed PWD.
+... these are kept for the future cases where we might have more than one context (PWD).
+
 
 
 ## Dispatcher ##
@@ -233,7 +370,11 @@ Removes the 'php phaker' stuff and passes just the interesting stuff (i.e. user 
 
 > Phake_Dispatcher::dispatch_cli($argv)
 
-Cli dispatcher then parses $argv into an array. 
+Cli dispatcher then parses $argv into an array.
+
+Use "parser" (below) to extract the core arguments (--verbose, --pretend, --pwd, ... etc) and store them in
+  Phake_Dispatcher::core_args[]  (e.g.)
+
 
 ### Dispatch from PHP (::dispatch_command()) ###
 
@@ -302,11 +443,18 @@ Can be used from anywhere in php - although the helper function will probably be
 
 ## Inspector / Reflector ##
 
-Get information about Scripts:
-* Methods
-* Documentation
-* Arguments for Methods
-...
+Phake_Reflector contains protected methods for getting information about classes. This uses PHP5's built in reflection, plus some extra stuff for getting documentation etc.
+
+Phake_Reflector_Script is for getting information about phake scripts.
+
+Phake_Reflector_Action is for getting information about phake actions.
+
+Usage:
+  $reflector = Phake_Reflector::reflect($class_name | $object)
+
+This returns a singleton for the class. It will return a suitable reflector - either _Script or _Action, depending on what $class_name's ancestry is.
+
+
 
 ## Log ##
 
@@ -337,7 +485,5 @@ Loads all Phaker_... files
 Loads all Zend_... files
 
 Tries to load any phake scripts from environment variable
-
-
 
 
