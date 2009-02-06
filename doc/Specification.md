@@ -239,7 +239,6 @@ This can be used for including phake in normal PHP scripts - therefore, this mus
 Environment variables setup by bootstrap
 
   PHAKER_DIR_SRC    path to Phake
-  PHAKER_DIR_LIB    path to Phake's lib/ directory
   
 
 
