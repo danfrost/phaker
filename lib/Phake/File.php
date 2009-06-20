@@ -18,9 +18,22 @@ class Phake_File {
 	private	$file;
 	
 	/**
+	 * This is purely for testing purposes. Do not use.
+	 */
+	public $_;
+	
+	
+	/**
 	 * Constructor - just sets filename in object
+	 * @param $file_factory_identifier  
 	 */
 	function __construct($file) {
+	    echo "\n\nCREATING: $file\n";
+	    
+	    if(Phake_File_Factory::known($file)) {
+	        throw new Exception("Tried to create more than 1 file object for '$file'");
+	    }
+	    
 		$this->file = $file;
 	}
 	
@@ -29,12 +42,36 @@ class Phake_File {
 	 * For example, if you call '$fileObject->touch()', this is passed down to the action 'Phake_Action_Touch'.
 	 */
 	function & __call($method, $args=array()) {
-		if($args) {
-			$args = "'".implode("', '", $args)."'";
-			$php = 'self::$context->$method($this->file, '.$args.');';
-			eval($php);
+		/*if($args) {
+			$args = "'".@implode("', '", $args)."'";
+			//$php = 'self::$context->$method($this->file, '.$args.');';
+			//eval($php);
+			
+			echo PHP_EOL.'!! NOT DOING "'.$method.'" !!'.PHP_EOL;
 		} else {
-			self::$context->$method($this->file);
+			//self::$context->$method($this->file);`
+			//Phake_Pwd::get()->$method($this->file);
+			
+			echo PHP_EOL.'!! NOT DOING "'.$method.'" !!'.PHP_EOL;
+		}*/
+		
+        $method{0} = strtoupper($method{0});
+		$class = 'Phake_Action_'.$method;
+		
+		if(!class_exists($class)) {
+		    throw new Exception("'$class' does not exist");
+		}
+	    
+		$o = new $class($this);
+		
+		try {
+    		$o->setArgs($args);
+    		//$o->print_docs();
+    		$o->runAction($args);
+    		$this->actions[] = & $o;
+		} catch(Exception $e) {
+		    // This should be removed - phpspec was throwing all kinds of errors
+		    echo "\nProblem (".__METHOD__."): ".$e->getMessage().'('.$e->getFile().$e->getLine().')';
 		}
 		
 		return $this;
@@ -44,7 +81,7 @@ class Phake_File {
 	 * Returns full path to the file
 	 */
 	function getFullPath() {
-		return self::$context->dir.$this->getFilename();
+		return Phake_Pwd::get().$this->getFilename();
 	}
 	
 	/**
@@ -72,7 +109,13 @@ class Phake_File {
 	 * Alias of Phake_File::getFullPath()
 	 */
 	function __toString() {
-		return $this->getFullPath();
+	    try {
+	        $ret = $this->getFullPath();
+	    } catch(Exception $e) {
+	        die($e->getMessage().' ('.$e->getFile().':'.$e->getLine().')');
+	    }
+	    
+		return $ret;
 	}
 	
 	function contents() {
@@ -96,11 +139,12 @@ class Phake_File {
  * @author		Dan Frost <dan@danfrost.co.uk>
  * @copyright 	Copyright (c) 2008, Dan Frost
  */
-function f($file) {
+function & f($file) {
 	if(is_a($file, 'Phake_File')) {
 		return $file;
 	}
-	return new Phake_File($file);
+	//return new Phake_File($file);
+	return Phake_File_Factory::n($file);
 }
 
 /**

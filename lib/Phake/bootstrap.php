@@ -23,6 +23,7 @@ require_once PHAKE_DIR_SRC.'Autoloader.php';
 
 Zend_Loader::registerAutoload('Phake_AutoLoader');
 
+// *** I think this is probably all overkill...!!
 
 abstract class Phake_AutoLoader_Loader {
     

@@ -79,10 +79,14 @@ class Phake_Inspector {
 		$command{0} = strtoupper($command{0});
 		$class = 'Phake_Script_'.$command;
 		
-		$cmd = new $class();
+		//$cmd = new $class();
 		
 		$actions = array();
-		foreach(get_class_methods($cmd) as $c) {
+		$methods = get_class_methods($class);
+		if(!is_array($methods)) {
+		    $methods = array();
+		}
+		foreach($methods as $c) {
 			if(is_callable(array($class, $c)) && !in_array($c, array('__construct', 'dispatchAction', '__toString'))) {
 				//echo "\n> Callable: $c";
 				$actions[] = $c;
@@ -104,11 +108,12 @@ class Phake_Inspector {
 		$command{0} = strtoupper($command{0});
 		$class = 'Phake_Script_'.$command;
 		
-		$f = Autoloader::get_class_file($class);
+		$f = Phake_Autoloader::getClassFile($class);
 		
 		$php = file_get_contents($f);
 		$x = explode(PHP_EOL, $php);
 		
+		$ret_brief = '';
 		$last_brief = '';
 		$record_next_line = false;
 		foreach($x as $line) {

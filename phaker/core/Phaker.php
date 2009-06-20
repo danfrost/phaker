@@ -10,7 +10,7 @@ class Phake_Script_Phaker extends Phake_Script {
 	 */
 	function welcome() {}
 	
-	function welcome_short() {}
+	function welcomeshort() {}
 	
 	function about() {
 		phake('phaker welcome');

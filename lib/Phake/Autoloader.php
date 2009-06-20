@@ -18,25 +18,27 @@ class Phake_AutoLoader extends Zend_Loader
     
     public static function loadClass($class, $dirs = null)
     {
-        echo PHP_EOL.">> Loading: $class";
-		if($loader = self::findAudoloaderForClass($class)) {
-		    echo PHP_EOL.">> Loading using: ".$loader;
+        //if() {
+		try {
+		    $loader = self::findAudoloaderForClass($class);
+		    //echo PHP_EOL."! >> Loading using: ".$loader;
 		    try {
                 $loader->loadClass($class); 
             } catch(Exception $e) {
                 echo PHP_EOL.">> Problem: ".$e->getMessage();
             }
-		} else {
+		} catch(Phake_AutoLoader_Exception $e) {
+		    //echo "TRYING";
 		    parent::loadClass($class, $dirs);
 		}
 		//echo PHP_EOL . 'Done';
 		if(!class_exists($class)) {
-		    echo "THROWING!";
+		    //echo "THROWING!";
 		    throw new Phake_AutoLoader_Exception_ClassUnknown();
 		}
     }
     
-    public static function getClassFile($class) 
+    public static function getClassFile($class)
     {
         $loader = self::findAudoloaderForClass($class);
         return $loader->getClassFile($class);
@@ -47,7 +49,8 @@ class Phake_AutoLoader extends Zend_Loader
      * @throws  Phake_AutoLoader_Exception_ClassUnknown     If no autoloaders know this class
      * @throws  Phake_AutoLoader_Exception_LoaderConflict   If more than one autoloader knows this class
      */
-    private static function & findAudoloaderForClass($class) {
+    private static function & findAudoloaderForClass($class)
+    {
         $eligable_loaders   = array();
         foreach (self::$loaders as $k=>$_) {
             if(self::$loaders[$k]->knowsClass($class)) {
@@ -68,17 +71,20 @@ class Phake_AutoLoader extends Zend_Loader
         return self::getAutoloader($eligable_loaders[0]);
     }
     
-    public static function addAutoloader(Phake_AutoLoader_Loader & $loader) {
+    public static function addAutoloader(Phake_AutoLoader_Loader & $loader)
+    {
         $id = md5(get_class($loader));
         self::$loaders[$id] = & $loader;
         return $id;
     }
     
-    public static function & getAutoloader($loader_id) {
+    public static function & getAutoloader($loader_id)
+    {
         return self::$loaders[$loader_id];
     }
     
-    public static function & getAutoloaders($loader_ids=array()) {
+    public static function & getAutoloaders($loader_ids=array())
+    {
         if(!$loader_ids) {
             return self::$loaders;
         }

@@ -1,11 +1,12 @@
 <?php
 
 $verbose = false;
+//die('$command = '.$command);
 if($command) {
 	$cmds = array($command);
 	$verbose = true;
 } else {
-	$cmds = Phake_Inspector::getScripts();
+	$cmds = Phake_Finder::getKnownCommands();
 }
 
 if(!$verbose) {
@@ -17,9 +18,10 @@ foreach ($cmds as $c) {
 	
 	$cCap = $c;
 	$cCap{0} = strtoupper($cCap{0});
-	$path = Autoloader::get_class_file("Phake_Script_$cCap");
+	$path =  Phake_AutoLoader::getClassFile("Phake_Script_$cCap");
 	
 	if($verbose) {
+	    throw new Todo("need to re-build Phake_Inspector");
 		$doc = Phake_Inspector::getCommandDocs($c);
 		echo PHP_EOL.$doc.PHP_EOL;
 		

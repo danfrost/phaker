@@ -239,6 +239,7 @@ This can be used for including phake in normal PHP scripts - therefore, this mus
 Environment variables setup by bootstrap
 
   PHAKER_DIR_SRC    path to Phake
+  PHAKER_DIR_APP    path to Phake's overall source code (RENAME THESE?)
   
 
 
@@ -465,7 +466,31 @@ Logging for
   ...
   Use standard log levels
 
-## File handling ##
+## File handling, Pwd etc ##
+
+Context use is simple:
+
+$pwdObject->someAction('file_to_work_on.txt', 'some', 'other', 'params');
+
+  >> Phake_Action_SomeAction
+    [file_to_work_on.txt is turned into a Phake_File object]
+    [stuff done here]
+
+
+Work with with a file:
+
+$fileObject->someAction('some', 'other', 'params');
+  >
+  Phake_File::__call
+    >
+    Phake_Pwd_Directory::_call
+      >
+      Phake_Action_SomeAction
+        [file to work on is already an object]
+        [stuff done here]
+
+
+
 
 File.php
 

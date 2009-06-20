@@ -11,10 +11,10 @@
  * @copyright 	Copyright (c) 2008, Dan Frost
  * @filesource
  */
-require_once dirname(__FILE__).'/header.php';
+require_once dirname(__FILE__).'/bootstrap.php';
 
 try {
-	echo Phake_Dispatcher::dispatch_cli($argv);
+	echo Phake_Dispatcher::dispatchCli($argv);
 } catch(Phake_Script_EndAllException $e) {
 	echo PHP_EOL.PHP_EOL."Fatal error: ".$e->getMessage().PHP_EOL;
 }

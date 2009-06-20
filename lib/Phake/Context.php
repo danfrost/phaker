@@ -23,6 +23,7 @@ class Phake_Context {
 	var $actions = array();
 	
 	function __construct($dir) {
+	    die(__METHOD__.' do not use');
 		echo "\nContext dir = $this->dir\n";
 		$this->dir = $dir;
 	}

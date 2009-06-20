@@ -45,7 +45,7 @@ class Phake_Script {
 		$this->args = $args;
 		
 		// Just get the class loaded
-		Autoloader::load('Phake_File');
+		class_exists('Phake_File');
 		
 		//$this->dispatchAction();
 	}
@@ -114,9 +114,9 @@ class Phake_Script {
 	 * @return 	HTML	Contents of the view file
 	 */
 	protected function include_action_view() {
-		$dir = Autoloader::get_class_dir(get_class($this));
+		$dir = dirname(Phake_Autoloader::getClassFile(get_class($this))).'/';
 		$view_file = $dir.$this->get_cmd().'/'.$this->action.'.php';
-		
+		//echo "[$view_file]\n";
 		if(!file_exists($view_file)) {
 		    return;
 		}

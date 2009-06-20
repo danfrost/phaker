@@ -1,5 +1,9 @@
 <?php
 
+// Done here because all actions are likely to need both the class and the define.
+class_exists('Phake_File');
+define('Phake_File', 'Phake_File');
+
 /**
  * A 'phake action' is a file-related action usually performed by a Phake_Script object.
  * 
@@ -31,6 +35,8 @@ abstract class Phake_Action {
 	 * Constructor
 	 */
 	final function __construct(& $context) {
+	    // this makes sure the file is included now
+	    
 		$this->context = & $context;
 	}
 	
@@ -50,7 +56,11 @@ abstract class Phake_Action {
 	 */
 	final function setArgs(& $args) {
 		$vars = Phake_ActionHelper::get_class_vars($this);
-		
+		/*echo PHP_EOL.'----'.PHP_EOL;
+		var_dump($args);
+		echo PHP_EOL.'----'.PHP_EOL;
+		var_dump($vars);*/
+		//die();
 		$i = 0;
 		foreach($vars as $var_name=>$var_type) {
 			$var_value = & $args[$i];
@@ -73,14 +83,14 @@ abstract class Phake_Action {
 	 * @todo 	Integrate PhpDocumentor so we can get even more docs
 	 * @todo 	Move somewhere else. Not sure where.
 	 */
-	final function print_docs() {
+	final private function print_docs() {
 		$vars = Phake_ActionHelper::get_class_vars($this);
 		
 		$vardocs = array();
 		$i = 0;
 		foreach($vars as $var_name=>$var_type) {
 			if(class_exists($var_type)) {
-				$vardocs[$var_name]	= "Instance of '$var_type'";
+				$vardocs[$var_name]	= "Instance of '$var_type'. Value is '".$this->$var_name."'";
 			} else {
 				//$this->$var_name =  & $args[$i];
 				$vardocs[$var_name]	= "String - '$var_type'";
@@ -118,7 +128,15 @@ abstract class Phake_Action {
 		if(!method_exists($this, 'undoAction')) {
 			echo "\n!!! This is not undoable";
 		}
-		$this->doAction();
+		
+		// Show docs:
+		$this->print_docs();
+		
+		if(Phake_Config::get('pretend')) {
+		    echo PHP_EOL.'PRETEND - NOT RUNNING';
+		} else {
+		    $this->doAction();
+	    }
 		echo "\nDone action: ".$this->getName();
 	}
 	
