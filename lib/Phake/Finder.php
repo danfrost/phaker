@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ * Finds phake scripts based on the known / configured 'phake dirs'
  */
 class Phake_Finder {
     
@@ -16,8 +16,24 @@ class Phake_Finder {
         $has_run = true;
         
         // Default / core dirs
-        self::addScriptDir(PHAKE_DIR_APP.'/phaker/core');
-        self::addScriptDir(PHAKE_DIR_APP.'/phaker/examples');
+        self::addScriptDir(PHAKE_DIR_APP.'phaker/core');
+        self::addScriptDir(PHAKE_DIR_APP.'phaker/examples');
+        
+        // create a handler for the directory
+        $handler = opendir(PHAKE_DIR_APP.'phaker/installed/');
+
+        // keep going until all files in directory have been read
+        while ($file = readdir($handler)) {
+
+            // if $file isn't this directory or its parent, 
+            // add it to the results array
+            if ($file != '.' && $file != '..' && is_dir(PHAKE_DIR_APP.'phaker/installed/'.$file)) {
+                self::addScriptDir(PHAKE_DIR_APP.'phaker/installed/'.$file);
+            }
+        }
+        
+        // tidy up: close the handler
+        closedir($handler);
         
         $custom_dirs = @$GLOBALS['_ENV']['PHAKE_SCRIPTS_DIR'];
         
@@ -27,7 +43,8 @@ class Phake_Finder {
             try {
                 self::addScriptDir($d);
             } catch(Exception $e) {
-                echo PHP_EOL. 'ERROR '.__FILE__.__LINE__;
+                echo PHP_EOL. 'WARNING: Cannot add non existant script dir "'.$d.'"'.PHP_EOL.
+                    ' (in '.__FILE__.__LINE__.')';
             }
         }
     }
@@ -50,6 +67,9 @@ class Phake_Finder {
         return self::$dirs;
     }
     
+    /**
+     * Finds the file in the phake script dirs.
+     */
     public function findFile($file)
     {
         $use_file = '';

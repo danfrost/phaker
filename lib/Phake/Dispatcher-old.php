@@ -1,4 +1,5 @@
 <?php
+die(__FILE__.__LINE__.'REMOVE THIS');
 
 /**
  * PHP version of the phake CLI.

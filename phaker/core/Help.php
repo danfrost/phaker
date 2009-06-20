@@ -20,16 +20,14 @@ class Phake_Script_Help extends Phake_Script {
 	/**
 	 * Default help message
 	 */
-	function index($commands=true, $arg1=123, $arg2='abc') {
-		if(!$commands) {
-		    phake('phaker welcome');
-	    } else {
-		    phake('phaker welcomeshort');
-		    phake('help', 'commands');
-	    }
-	    echo "hello!!";
+	function index() {
+		phake('phaker welcomeshort');
+		phake('help', 'commands');
 	}
 	
+	/**
+	 * FOR TESTING THE PARAMS SYSTEM. 
+	 */
 	function testing(
 	    $try=0,
 	    $message=""
@@ -40,17 +38,17 @@ class Phake_Script_Help extends Phake_Script {
 	    echo "\nDone";
 	}
 	/**
-	 * How to create a phake script
+	 * How to create a phake script (can also be run by 'phake howto')
 	 */
 	function howto() {}
 	
 	/**
-	 * Short tutorial on phake scripts
+	 * Short tutorial on phake scripts (can also be run by 'phake tutorial')
 	 */
 	function tutorial() {}
 	
 	/**
-	 * List available commands
+	 * List available commands (can also be run by 'phake commands')
 	 */
 	function commands($command='') {}
 	

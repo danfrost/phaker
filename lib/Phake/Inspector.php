@@ -147,14 +147,19 @@ class Phake_Inspector {
 		return $ret_brief;
 	}
 	
+	/**
+	 * Returns documentation for the actions in a given phake script class.
+	 */
 	function getCommandDocs($cmd) {
 		$command = strtolower($cmd);
 		$command{0} = strtoupper($command{0});
 		$class = 'Phake_Script_'.$command;
 		
+		// Get instance of the class - we use reflection
 		$o = new $class();
+		// ...
+		$file = Phake_Finder::findFile($command.'.php');
 		
-		$f = Autoloader::get_class_file($class);
 		
 		$php = file_get_contents($f);
 		$x = explode(PHP_EOL, $php);

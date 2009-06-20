@@ -1,4 +1,5 @@
 <?php
+die(__FILE__.__LINE__.'REMOVE THIS');
 /**
  * Header for Phake source. 
  * 

@@ -6,6 +6,8 @@ define('PHAKE_DIR_SRC', dirname(__FILE__).'/');
 
 define('PHAKE_DIR_APP', dirname(dirname(dirname(__FILE__))).'/');
 
+define('PHAKE_DIR_INSTALL', PHAKE_DIR_APP.'phaker/installed');
+
 ini_set('include_path',ini_get('include_path').':'.dirname(dirname(__FILE__)).'/');
 
 

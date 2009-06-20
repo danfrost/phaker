@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * PHP version of the phake CLI.
  * 
@@ -36,8 +35,8 @@ class Phake_Dispatcher
     
     /**
      *    ### Dispatch from CLI (::dispatch_cli()) ###
-        - This is used *only* in the phaker.php script.
-
+     *   - This is used *only* in the phaker.php script.
+     *
         The dispatcher is called from the phaker script, which passes the command line arguments to it:
 
         Removes the 'php phaker' stuff and passes just the interesting stuff (i.e. user arguments).
@@ -60,7 +59,7 @@ class Phake_Dispatcher
             }
             
             $v = str_replace(PHAKE_DIR_SRC, '',realpath($v));
-            echo "\n\$v = $v";
+            //echo "\n\$v = $v";
             if(trim($v)=='phaker.php') {
                 $use_remaining = true;
             }
@@ -120,7 +119,7 @@ class Phake_Dispatcher
      */
     private static function parse($arguments)
     {
-        echo PHP_EOL."Args = ".implode(', ', $arguments).PHP_EOL;
+        //echo PHP_EOL."Args = ".implode(', ', $arguments).PHP_EOL;
         $known_commands = Phake_Finder::getKnownCommands();
         //print_r($known_commands);
         
@@ -151,11 +150,12 @@ class Phake_Dispatcher
             $action    = self::$default_action;
         }
         
-        return new Phake_Dispatcher_Request(
+        $ret = new Phake_Dispatcher_Request(
             $command, 
             $action,
             $arguments
             );
+        return $ret;
     }
     
     
@@ -189,7 +189,7 @@ class Phake_Dispatcher
     */
     private static function dispatch(Phake_Dispatcher_Request $dispatchRequest)
     {
-        echo PHP_EOL ."Dispatching: $dispatchRequest->command:$dispatchRequest->action.";
+        echo "Dispatching: $dispatchRequest->command:$dispatchRequest->action.".PHP_EOL;
         $class = Phake_Finder::getClassForCommand($dispatchRequest->command);
         
         // To find out:
@@ -261,9 +261,8 @@ class Phake_Dispatcher
 			$arg_count++;
 		}
 	    // > END: Prepare args for the command
-	    		
-		// End: parse args
-        
+	    
+	    // End: parse args
         
         $scriptObject = new $class($dispatchRequest->action, $args);
         self::dispatchAction($scriptObject);
@@ -271,7 +270,7 @@ class Phake_Dispatcher
         //$scriptObject->dispatchAction();
     }
     
-    // Actions are kept in these arrays, but don't ever try getting them - they're for our purposes only.
+    // Actions are kept in these arrays, but don't ever try getting them - they're for internal purposes only.
     private static $scripts_completed  = array();
     private static $scripts_inprogress = array();
     
@@ -294,7 +293,7 @@ class Phake_Dispatcher
      */
     private function findOptions($class, $method)
     {
-        echo "\nclass:method = $class : $method\n";
+        echo "class:method = $class : $method".PHP_EOL;
         
 		$reflect	= new ReflectionClass($class);
 		try {
@@ -342,6 +341,6 @@ class Phake_Dispatcher
 		return $params;
     }
 }
-class Todo extends Exception {}
+
 
 ?>

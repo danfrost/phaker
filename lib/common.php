@@ -1,4 +1,6 @@
 <?php
+die(__FILE__.__LINE__.'REMOVE THIS');
+
 /**
  * Shared functions
  * @package Phaker

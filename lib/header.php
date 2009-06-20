@@ -1,4 +1,5 @@
 <?php
+die(__FILE__.__LINE__.'REMOVE THIS');
 /**
  * Overall header for phaker project - defines where all the core templates etc are. Includes shared code.
  * @package Phaker
