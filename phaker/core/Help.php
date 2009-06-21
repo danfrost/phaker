@@ -18,11 +18,10 @@ function blue($a) {
 class Phake_Script_Help extends Phake_Script {
 	
 	/**
-	 * Default help message
+	 * List available commands (can also be run by 'phake commands')
 	 */
-	function index() {
-		phake('phaker welcomeshort');
-		phake('help', 'commands');
+	function index($command='')
+	{
 	}
 	
 	/**
@@ -37,20 +36,16 @@ class Phake_Script_Help extends Phake_Script {
 	    }
 	    echo "\nDone";
 	}
+	
 	/**
-	 * How to create a phake script (can also be run by 'phake howto')
+	 * How to create a phake script
 	 */
 	function howto() {}
 	
 	/**
-	 * Short tutorial on phake scripts (can also be run by 'phake tutorial')
+	 * Short tutorial on phake scripts
 	 */
 	function tutorial() {}
-	
-	/**
-	 * List available commands (can also be run by 'phake commands')
-	 */
-	function commands($command='') {}
 	
 	/**
 	 * Show the config

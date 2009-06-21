@@ -189,7 +189,7 @@ class Phake_Dispatcher
     */
     private static function dispatch(Phake_Dispatcher_Request $dispatchRequest)
     {
-        echo "Dispatching: $dispatchRequest->command:$dispatchRequest->action.".PHP_EOL;
+        //echo "Dispatching: $dispatchRequest->command:$dispatchRequest->action.".PHP_EOL;
         $class = Phake_Finder::getClassForCommand($dispatchRequest->command);
         
         // To find out:
@@ -293,7 +293,7 @@ class Phake_Dispatcher
      */
     private function findOptions($class, $method)
     {
-        echo "class:method = $class : $method".PHP_EOL;
+        //echo "class:method = $class : $method".PHP_EOL;
         
 		$reflect	= new ReflectionClass($class);
 		try {

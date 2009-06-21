@@ -25,7 +25,7 @@ class Phake_AutoLoader extends Zend_Loader
 		    try {
                 $loader->loadClass($class); 
             } catch(Exception $e) {
-                echo PHP_EOL.">> Problem: ".$e->getMessage();
+                echo "Problem loading class '$class': ".PHP_EOL.'    '.$e->getMessage().PHP_EOL;
             }
 		} catch(Phake_AutoLoader_Exception $e) {
 		    //echo "TRYING";

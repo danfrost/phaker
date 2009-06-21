@@ -1,11 +1,4 @@
-Tidy up the code.
-
-Remove unused stuff - or throw "deprecated" exceptions
-
---also--
-
-I think the autoloader stuff is overkill. Could hugely simplify this??
-    ... but it is working, so leave until later.
+Get all the file manipulation stuff done.
 
 
 
