@@ -316,13 +316,39 @@ class Phake_Dispatcher
             echo PHP_EOL.implode(PHP_EOL.' ', $lines).PHP_EOL;
             
             die();
-            
-            
         } catch(Exception $e) {
             // Something else happened. Need to show the full backtrace
             
+            $divider = str_repeat('=', 30);
             
+            $lines[] = red("Exception thrown: ".$e->getMessage());
             
+            $lines[] = "while running: '".(string)(self::$scripts_inprogress[$id])."'";
+            
+            $lines[] = $divider;
+            
+            $lines[] = "Completed actions:";
+            foreach(self::$scripts_completed as $s) {
+                $lines[] = "  ".(string) ($s);
+            }
+            
+            $lines[] = $divider;
+            
+            $lines[] = "Incomplete actions:";
+            $count = 0;
+            foreach(self::$scripts_inprogress as $s) {
+                $lines[] = '  '.str_repeat('> ', $count).
+                            (string) ($s);
+                $count++;
+            }
+            
+            $lines[] = $divider;
+            
+            $lines[] = "Error displayed by: ".__METHOD__;
+            
+            echo PHP_EOL.implode(PHP_EOL.' ', $lines).PHP_EOL;
+            
+            die();
         }
         
         self::$scripts_completed[$id] = & self::$scripts_inprogress[$id];

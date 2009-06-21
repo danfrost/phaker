@@ -1,6 +1,4 @@
 <?php
-
-
 /*
  * @package Phaker
  */
@@ -11,19 +9,6 @@ class Phake_Script_Help extends Phake_Script {
 	 */
 	function index($command='')
 	{
-	}
-	
-	/**
-	 * FOR TESTING THE PARAMS SYSTEM. 
-	 */
-	function testing(
-	    $try=0,
-	    $message=""
-	    ) {
-	    for($i=0;$i<=$try;$i++) {
-	        echo "\nTry: $i - $message";
-	    }
-	    echo "\nDone";
 	}
 	
 	/**
@@ -39,8 +24,8 @@ class Phake_Script_Help extends Phake_Script {
 	/**
 	 * Show the config
 	 */
-	function config() {
-		phake('phaker welcome-short');
+	function config()
+	{	
 	}
 	
 }

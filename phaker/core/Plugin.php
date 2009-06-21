@@ -3,10 +3,11 @@
 class Phake_Script_Plugin extends Phake_Script
 {
     /**
-     * Nothing
+     * Help message
      */
     function index()
     {
+        phake('help plugin');
     }
     
     /**

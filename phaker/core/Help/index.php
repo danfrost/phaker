@@ -9,8 +9,6 @@ if($command) {
 	$cmds = Phake_Finder::getKnownCommands();
 }
 
-echo PHP_EOL;
-
 if(!$verbose) {
 	echo PHP_EOL.'  Available commands - phake help "command" for more info'.PHP_EOL;
 }

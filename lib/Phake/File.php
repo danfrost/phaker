@@ -59,7 +59,8 @@ class Phake_File {
 		$class = 'Phake_Action_'.$method;
 		
 		if(!class_exists($class)) {
-		    throw new Exception("'$class' does not exist");
+		    
+		    throw new Phake_Script_ScriptException("'$method' is not a known file method (trying to find '$class').");
 		}
 		$o = new $class($this);
 		
