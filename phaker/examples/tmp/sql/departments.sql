@@ -1,1 +1,0 @@
-# this file is sql/departments.sql
