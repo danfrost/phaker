@@ -1,15 +1,4 @@
 <?php
-function red($a) {
-	$exec = 'echo -e "\\033[1m'.$a.'\\033[0m"';
-	exec("$exec", $arr);
-	return implode(PHP_EOL, $arr);
-}
-function blue($a) {
-	//$exec = 'echo -e "\\033[1m'.$a.'\\033[0m"';
-	$exec = 'echo -e \'\E[34;1m'.$a.'.\'; tput sgr0; tput sgr0';//';echo -e "\\033[1m'.$a.'\\033[0m"';
-	exec("$exec", $arr);
-	return implode(PHP_EOL, $arr);
-}
 
 
 /*

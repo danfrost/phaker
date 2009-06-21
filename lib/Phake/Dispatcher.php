@@ -281,7 +281,49 @@ class Phake_Dispatcher
     private static function dispatchAction(Phake_Script & $scriptObject) {
         $id = md5(serialize($scriptObject).time().rand(1000,9999));
         self::$scripts_inprogress[$id] = & $scriptObject;
-        self::$scripts_inprogress[$id]->dispatchAction();
+        try {
+            self::$scripts_inprogress[$id]->dispatchAction();
+        } catch(Phake_Script_ScriptException $e) {
+            // This means one of the scripts fired $this->error()
+            
+            $divider = str_repeat('=', 30);
+            
+            $lines[] = red("Fatal error: ".$e->getMessage());
+            
+            $lines[] = "while running: '".(string)(self::$scripts_inprogress[$id])."'";
+            
+            $lines[] = $divider;
+            
+            $lines[] = "Completed actions:";
+            foreach(self::$scripts_completed as $s) {
+                $lines[] = "  ".(string) ($s);
+            }
+            
+            $lines[] = $divider;
+            
+            $lines[] = "Incomplete actions:";
+            $count = 0;
+            foreach(self::$scripts_inprogress as $s) {
+                $lines[] = '  '.str_repeat('> ', $count).
+                            (string) ($s);
+                $count++;
+            }
+            
+            $lines[] = $divider;
+            
+            $lines[] = "Error displayed by: ".__METHOD__;
+            
+            echo PHP_EOL.implode(PHP_EOL.' ', $lines).PHP_EOL;
+            
+            die();
+            
+            
+        } catch(Exception $e) {
+            // Something else happened. Need to show the full backtrace
+            
+            
+            
+        }
         
         self::$scripts_completed[$id] = & self::$scripts_inprogress[$id];
         unset(self::$scripts_inprogress[$id]);
