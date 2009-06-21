@@ -17,7 +17,7 @@ class Phake_Pwd
             return;
         }
         
-        self::$pwd = new Phake_Pwd_Directory($GLOBALS['_ENV']['PWD']);
+        self::$pwd = new Phake_Pwd_Directory($GLOBALS['_ENV']['PWD']).'/';
     }
 }
 ?>

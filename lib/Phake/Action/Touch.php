@@ -9,9 +9,10 @@
 class Phake_Action_Touch extends Phake_Action {
 	var	$file = Phake_File;
 	
-	function doAction() {
+	function doAction()
+	{
+	    //throw new Exception('no');
 		echo "\nTouching: ".$this->file->getFullPath();
-		
 		touch($this->file->getFullPath());
 	}
 }

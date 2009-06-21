@@ -11,8 +11,9 @@ class Phake_Action_Backup extends Phake_Action implements Phake_Action_Undoable 
 	public $source = Phake_File;
 	
 	function doAction() {
-		$f = $this->source->getFullPath().'-'.date("Y_M_D_H_i");
-		$this->target = f($f);
+		//$f = $this->source->getFullPath().'-'.date("Y_M_D_H_i");
+		$targetFilename = $this->source->getFilename().'-'.date("Y_M_D_H_i");
+		$this->target = f($targetFilename);
 		echo "\nCopying from: $this->source to $this->target";
 		copy($this->source->getFullPath(), $this->target->getFullPath());
 	}

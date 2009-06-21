@@ -62,6 +62,7 @@ abstract class Phake_Action {
 		var_dump($vars);*/
 		//die();
 		$i = 0;
+		
 		foreach($vars as $var_name=>$var_type) {
 			$var_value = & $args[$i];
 			if(class_exists($var_type)) {

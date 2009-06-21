@@ -87,7 +87,7 @@ class Phake_File_Collection {
 	 * For example, if you call '$fileObject->touch()', this is passed down to the action 'Phake_Action_Touch'.
 	 */
 	function & __call($method, $args=array()) {
-		echo "\nCalling method: $method\n";
+		echo PHP_EOL."Calling method: $method on collection of files".PHP_EOL;
 		
 		foreach($this->files as $k=>$f) {
 			$f = & $this->files[$k];

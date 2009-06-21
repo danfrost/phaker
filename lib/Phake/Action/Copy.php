@@ -10,12 +10,12 @@
 class Phake_Action_Copy extends Phake_Action implements Phake_Action_Undoable {
 	var $source = '';
 	var $target = '';
-	
+	/*
 	function setArgs($args) {
 		$this->source = $this->context->dir.$args[0];
 		$this->target = $this->context->dir.$args[1];
 	}
-	
+	*/
 	function doAction() {
 		echo "\nCopying from: $this->source to $this->target";
 		copy($this->source, $this->target);

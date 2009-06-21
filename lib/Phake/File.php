@@ -61,11 +61,12 @@ class Phake_File {
 		if(!class_exists($class)) {
 		    throw new Exception("'$class' does not exist");
 		}
-	    
 		$o = new $class($this);
 		
 		try {
-    		$o->setArgs($args);
+		    $finalArgs = array_merge(array($this), $args);
+		    $o->setArgs($finalArgs);
+    		
     		//$o->print_docs();
     		$o->runAction($args);
     		$this->actions[] = & $o;
@@ -139,11 +140,12 @@ class Phake_File {
  * @author		Dan Frost <dan@danfrost.co.uk>
  * @copyright 	Copyright (c) 2008, Dan Frost
  */
-function & f($file) {
+function & f($file)
+{
 	if(is_a($file, 'Phake_File')) {
 		return $file;
 	}
-	//return new Phake_File($file);
+	
 	return Phake_File_Factory::n($file);
 }
 
@@ -161,7 +163,8 @@ function & f($file) {
  * f('sql/*.sql')->backup();
  * </code>
  */
-function fs($file_expression) {
+function fs($file_expression)
+{
 	echo "\nFind files like: $file_expression\n";
 	return new Phake_File_Collection($file_expression);
 }
