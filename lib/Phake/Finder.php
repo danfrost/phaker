@@ -37,7 +37,11 @@ class Phake_Finder {
         
         $custom_dirs = @$GLOBALS['_ENV']['PHAKE_SCRIPTS_DIR'];
         
-        $x = explode(':', $custom_dirs);
+        if(trim($custom_dirs)) {
+            $x = explode(':', $custom_dirs);
+        } else {
+            $x = array();
+        }
         
         foreach ($x as $d) {
             try {

@@ -11,7 +11,7 @@ class Phake_Action_Skelparser extends Phake_Action {
 	var	$file = Phake_File;
 	
 	function doAction() {
-		throw new Phake_Exception_Todo('THIS IS NOT YET STABLE - PLEASE DO NOT USE ');
+	    throw new Phake_Exception_Todo('THIS IS NOT YET STABLE - PLEASE DO NOT USE ');
 		
 		echo "\nParsing: ".$this->file->getFullPath();
 		
