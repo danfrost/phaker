@@ -1,5 +1,13 @@
-1.	See INSTALL
+'phake' is build/script system like make, rake... but not quite the same.
 
-2.	Run 'phake'
+To install it:
+	Grab a copy from git://github.com/danfrost/phakescripts.git
+	export the 'bin/' directory into your $PATH.
+	(See INSTALL)
 
-That's it for now. More to come...
+Once installed, run 'phake'
+
+You'll probably want to install the extra scripts:
+	phake plugin install git://github.com/danfrost/phakescripts.git
+
+(c) Dan Frost, 2009. http://www.danfrost.co.uk/blog/
