@@ -25,8 +25,9 @@ class Phake_File_Collection {
 	 * Sets the expression and runs Phake_File->findFiles()
 	 * @param 	String	Expression for finding files. At present, this is just passed to cli 'find'.
 	 */
-	function __construct($file_expression) {
+	function __construct($file_expression, $recursive=false) {
 		$this->file_expression = $file_expression;
+		$this->recursive = $recursive;
 		$this->findFiles();
 	}
 	
@@ -43,12 +44,16 @@ class Phake_File_Collection {
 	 * \brief	Find the files. This won't create the file objects - just the file paths
 	 */
 	function findFiles() {
-		$exec = "ls ".Phake_File::$context->dir.$this->file_expression;
+	    if($this->recursive) {
+		    $exec = "find ".Phake_Pwd::get()." -name '".$this->file_expression."'";
+	    } else {
+	        $exec = "ls ".Phake_File::$context->dir.$this->file_expression;
+	    }
 		//echo $exec;
 		exec($exec, $arr);
 		
 		foreach($arr as $f) {
-			$fname = str_replace(Phake_File::$context->dir, '', $f);
+			$fname = str_replace(Phake_Pwd::get(), '', $f);
 			$this->files[$fname] = f($fname);
 		}
 	}

@@ -28,7 +28,7 @@ class Phake_File {
 	 * @param $file_factory_identifier  
 	 */
 	function __construct($file) {
-	    echo "\n\nCREATING: $file\n";
+	    echo PHP_EOL."File object: $file\n";
 	    
 	    if(Phake_File_Factory::known($file)) {
 	        throw new Exception("Tried to create more than 1 file object for '$file'");
@@ -121,7 +121,7 @@ class Phake_File {
 	}
 	
 	function contents() {
-		return file_get_contents($this->file);
+		return file_get_contents($this->getFullPath());
 	}
 }
 
@@ -164,10 +164,10 @@ function & f($file)
  * f('sql/*.sql')->backup();
  * </code>
  */
-function fs($file_expression)
+function fs($file_expression, $recursive=false)
 {
 	echo "\nFind files like: $file_expression\n";
-	return new Phake_File_Collection($file_expression);
+	return new Phake_File_Collection($file_expression, $recursive);
 }
 
 ?>
