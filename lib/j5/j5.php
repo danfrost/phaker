@@ -1,7 +1,7 @@
 <?php
 
 
-require_once dirname(__FILE__).'/../header.php';
+require_once dirname(__FILE__).'/header.php';
 
 J5::init_j5_dir(); // This should ascend the file structure to find the 'j5' directory
 

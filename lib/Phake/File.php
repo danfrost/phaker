@@ -28,7 +28,7 @@ class Phake_File {
 	 * @param $file_factory_identifier  
 	 */
 	function __construct($file) {
-	    echo PHP_EOL."File object: $file\n";
+	    //echo PHP_EOL."File object: $file\n";
 	    
 	    if(Phake_File_Factory::known($file)) {
 	        throw new Exception("Tried to create more than 1 file object for '$file'");
@@ -83,14 +83,20 @@ class Phake_File {
 	 * Returns full path to the file
 	 */
 	function getFullPath() {
-		return Phake_Pwd::get().$this->getFilename();
+	    //echo "\n>>".substr($this->file, 0, 1)." | ".$this->file."\n";
+	    if(substr($this->file, 0, 1)=='/') {
+	        //echo "filename: ".$this->file;
+	        return $this->file;
+	    } else {
+		    return Phake_Pwd::get().$this->getFilename();
+	    }
 	}
 	
 	/**
 	 * Returns filename only
 	 */
 	function getFilename() {
-		return $this->file;
+		return basename($this->file);
 	}
 	
 	/**
@@ -166,7 +172,7 @@ function & f($file)
  */
 function fs($file_expression, $recursive=false)
 {
-	echo "\nFind files like: $file_expression\n";
+	//echo "\nFind files like: $file_expression\n";
 	return new Phake_File_Collection($file_expression, $recursive);
 }
 

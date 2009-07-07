@@ -511,3 +511,31 @@ Loads all Zend_... files
 Tries to load any phake scripts from environment variable
 
 
+# .phake directory #
+
+This will contain:
+  - log of all commands ever run
+  - any extra messages
+  - configuration
+
+
+Config: Any script can require config. It does it by asking:
+
+  Phake_Vars::get('config name')
+
+This is remembered between sessions.
+
+To clear all config:
+
+  Phake_Vars::clear();
+
+To get global vars (e.g. database username)
+
+  Phake_Vars::getGlobal('database');
+
+To clear all:
+
+  Phake_Vars::clearGlobal();
+
+
+

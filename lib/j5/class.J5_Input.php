@@ -30,7 +30,7 @@ class J5_InputValue {
 	}
 	
 	function __toString() {
-		return $this->value;//'___'.$this->name.'___';//
+		return $this->asVariable();
 	}
 	
 	/**

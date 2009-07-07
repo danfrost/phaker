@@ -2,7 +2,7 @@
 
 // Config
 
-require_once dirname(dirname(__FILE__)).'/header.php';
+//require_once dirname(dirname(__FILE__)).'/header.php';
 
 define('J5_DIR', 			dirname(dirname(__FILE__)));
 
@@ -21,7 +21,7 @@ $extraTmplDir = implode(':', $extraTmplDir);
 
 define('J5_TEMPLATE_DIR', 	J5_DIR.'/templates:.:'.$extraTmplDir);
 
-die('Get J5_TEMPLATE_DIR working');
+//die('Get J5_TEMPLATE_DIR working');
 
 require_once J5_DIR.'/lib/class.J5_File.php';
 require_once J5_DIR.'/lib/class.J5_Input.php';

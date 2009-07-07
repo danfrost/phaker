@@ -12,7 +12,7 @@ class Phake_Action_Move extends Phake_Action implements Phake_Action_Undoable {
 	var	$target = Phake_File;
 	
 	function doAction() {
-		echo "\nMoving from: $this->source to $this->target";
+		//echo "\nMoving from: $this->source to $this->target";
 		if($this->source->is_not_file()) {
 			throw new Exception("Cannot move not-existant file: $this->source");
 		}
@@ -23,7 +23,7 @@ class Phake_Action_Move extends Phake_Action implements Phake_Action_Undoable {
 	}
 	
 	function undoAction() {
-		echo "\nUndoing: ".$this->getName();
+		//echo "\nUndoing: ".$this->getName();
 		if($this->target->is_not_file()) {
 			throw new Exception("Cannot move not-existant file: $this->target");
 		}

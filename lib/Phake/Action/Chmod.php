@@ -17,7 +17,7 @@ class Phake_Action_Chmod extends Phake_Action {
 	}
 	
 	function doAction() {
-		echo "\nchmod: $this->file to $this->permissions";
+		//echo "\nchmod: $this->file to $this->permissions";
 		chmod($this->file, $this->permissions);
 	}
 }

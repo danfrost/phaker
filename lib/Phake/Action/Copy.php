@@ -17,12 +17,12 @@ class Phake_Action_Copy extends Phake_Action implements Phake_Action_Undoable {
 	}
 	*/
 	function doAction() {
-		echo "\nCopying from: $this->source to $this->target";
+		//echo "\nCopying from: $this->source to $this->target";
 		copy($this->source, $this->target);
 	}
 	
 	function undoAction() {
-		echo "\nRemoving copy: ".$this->target;
+		//echo "\nRemoving copy: ".$this->target;
 		if(!file_exists($this->target)) {
 			throw new Exception("File does not exist: '$this->target'");
 		}

@@ -56,11 +56,7 @@ abstract class Phake_Action {
 	 */
 	final function setArgs(& $args) {
 		$vars = Phake_ActionHelper::get_class_vars($this);
-		/*echo PHP_EOL.'----'.PHP_EOL;
-		var_dump($args);
-		echo PHP_EOL.'----'.PHP_EOL;
-		var_dump($vars);*/
-		//die();
+        
 		$i = 0;
 		
 		foreach($vars as $var_name=>$var_type) {
@@ -125,20 +121,20 @@ abstract class Phake_Action {
 	 * @todo 	Remove all echo()
 	 */
 	function runAction() {
-		echo "\nRunning action: ".$this->getName();
+		//echo "\nRunning action: ".$this->getName();
 		if(!method_exists($this, 'undoAction')) {
-			echo "\n!!! This is not undoable";
+			//echo "\n!!! This is not undoable";
 		}
 		
 		// Show docs:
-		$this->print_docs();
+		//$this->print_docs();
 		
 		if(Phake_Config::get('pretend')) {
 		    echo PHP_EOL.'PRETEND - NOT RUNNING';
 		} else {
 		    $this->doAction();
 	    }
-		echo "\nDone action: ".$this->getName();
+		//echo "\nDone action: ".$this->getName();
 	}
 	
 	/**
