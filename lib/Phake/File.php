@@ -28,7 +28,7 @@ class Phake_File {
 	 * @param $file_factory_identifier  
 	 */
 	function __construct($file) {
-	    //echo PHP_EOL."File object: $file\n";
+	    echo PHP_EOL."File object: $file\n";
 	    
 	    if(Phake_File_Factory::known($file)) {
 	        throw new Exception("Tried to create more than 1 file object for '$file'");
