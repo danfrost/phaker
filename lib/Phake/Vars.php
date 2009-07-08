@@ -1,9 +1,14 @@
 <?php
 
+/**
+ * Manages variables that we need from the user.
+ * If a 'phake directory' is created (Phake_Vars::makePhakeDir()) then we will try to store variables 
+ * in here for future re-use.
+ */
 class Phake_Vars
 {
     
-    const phakeDirName = 'phake';
+    const phakeDirName = '.phake';
     
     private static $vars    = array();
     
@@ -32,9 +37,16 @@ class Phake_Vars
         @mkdir($base.self::phakeDirName.'/logs/', 0777, true);
     }
     
+    static function phakeDirExists()
+    {
+        return is_dir($base.self::phakeDirName);
+    }
+    
     static function load()
     {
-        Phake_Vars::makePhakeDir();
+        if(!self::phakeDirExists()) {
+            return false;
+        }
         
         $base = $_SERVER['PWD'].'/';
         $f = f($base.self::phakeDirName.'/vars/cache');
@@ -44,7 +56,9 @@ class Phake_Vars
     
     static function save()
     {
-        Phake_Vars::makePhakeDir();
+        if(!self::phakeDirExists()) {
+            return false;
+        }
         
         $base = $_SERVER['PWD'].'/';
         $f = f($base.self::phakeDirName.'/vars/cache');

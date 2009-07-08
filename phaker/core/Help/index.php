@@ -10,8 +10,10 @@ if($command) {
 }
 
 if(!$verbose) {
-	echo PHP_EOL.'  Available commands - phake help "command" for more info'.PHP_EOL;
+	echo '  Available commands'. PHP_EOL .'  "phake help command-name" for more info'.PHP_EOL;
 }
+
+$packages = array();
 
 foreach ($cmds as $c) {
 	$actions = Phake_Inspector::getActions($c);
@@ -26,7 +28,7 @@ foreach ($cmds as $c) {
 		$dir = str_replace('//', '/', $dir);
 		$x = explode('/', $dir);
 		$dir = $x[count($x)-1];
-		echo red( PHP_EOL.str_pad("  $c", 15)).blue( "[from dir: .../$dir]" );
+		echo red( PHP_EOL.str_pad("  $c", 15)).blue( "[from package: $dir]" );
 		
 		$doc = Phake_Inspector::getCommandDocs($c);
 		echo trim($doc) ? PHP_EOL.$doc.PHP_EOL : '';
@@ -46,7 +48,14 @@ foreach ($cmds as $c) {
 		$dir = str_replace('//', '/', $dir);
 		$x = explode('/', $dir);
 		$dir = $x[count($x)-1];
-		echo red( PHP_EOL.str_pad("  $c", 15)).blue( "[from dir: .../$dir]" );
+		$packages[$dir][] = red( str_pad("    $c", 10));//.blue( "[$dir]" );
 	}
+}
+
+if(!$verbose) {
+    foreach($packages as $dir => $lines) {
+        echo PHP_EOL.'  Package: '.blue($dir);
+        echo implode('', $lines).PHP_EOL;
+    }
 }
 ?>

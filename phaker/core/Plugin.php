@@ -46,6 +46,20 @@ class Phake_Script_Plugin extends Phake_Script
         echo "Completed.".PHP_EOL;
     }
     
+    /**
+     * List installed plugins
+     */
+    function show()
+    {
+        echo 'Installed plugins' . PHP_EOL;
+        $templateDir = PHAKE_DIR_INSTALL;
+        foreach (new DirectoryIterator($templateDir) as $file) {
+            if (!$file->isDot() && $file->isDir()) {
+                echo PHP_EOL . "  - $file";
+            }
+        }
+        echo PHP_EOL;
+    }
 }
 
 ?>
