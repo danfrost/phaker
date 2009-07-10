@@ -11,7 +11,7 @@ class Phake_Finder {
     {
         static $has_run = false;
         if($has_run) {
-            //return;
+            return;
         }
         $has_run = true;
         
@@ -41,6 +41,15 @@ class Phake_Finder {
             $x = explode(':', $custom_dirs);
         } else {
             $x = array();
+        }
+        
+        // Now add local custom dirs
+        $localDirs = @file_get_contents(Phake_Pwd::get().'/.phake/config');
+        $localDirs = array_unique(explode(PHP_EOL, $localDirs));
+        foreach($localDirs as $dir) {
+            if(trim($dir)) {
+                $x[] = $dir;
+            }
         }
         
         foreach ($x as $d) {
