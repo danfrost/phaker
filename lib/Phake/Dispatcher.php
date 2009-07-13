@@ -296,7 +296,7 @@ class Phake_Dispatcher
             
             $lines[] = "Completed actions:";
             foreach(self::$scripts_completed as $s) {
-                $lines[] = "  ".(string) ($s);
+                $lines[] = "  phake ".(string) ($s);
             }
             
             $lines[] = $divider;
@@ -305,7 +305,7 @@ class Phake_Dispatcher
             $count = 0;
             foreach(self::$scripts_inprogress as $s) {
                 $lines[] = '  '.str_repeat('> ', $count).
-                            (string) ($s);
+                            'phake '. (string) ($s);
                 $count++;
             }
             

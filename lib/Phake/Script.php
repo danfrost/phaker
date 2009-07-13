@@ -95,7 +95,7 @@ class Phake_Script {
 	 * Returns the command and action in CLI-style syntax.
 	 */
 	function __toString() {
-		return $this->get_cmd().' '.$this->action.' '.implode(' ',$this->args);
+		return $this->get_cmd().($this->action=='index' ? '' : (' '.$this->action)).' '.implode(' ',$this->args);
 	}
 	
 	/**

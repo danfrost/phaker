@@ -1,3 +1,5 @@
-Add better feedback so the user knows which scripts are running.
 
-Setup phake-scripts project for the useful (non-core) scripts.
+How should phake gen find variables in directory / file names?
+
+
+
