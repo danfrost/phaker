@@ -1,6 +1,7 @@
 <?php
 
-class Phake_Console_Getopt extends Zend_Console_Getopt {
+class Phake_Console_Getopt extends Zend_Console_Getopt
+{
     
     protected   $_unknown_options   = array();
     

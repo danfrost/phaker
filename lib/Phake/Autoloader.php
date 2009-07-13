@@ -18,10 +18,9 @@ class Phake_AutoLoader extends Zend_Loader
     
     public static function loadClass($class, $dirs = null)
     {
-        //if() {
 		try {
 		    $loader = self::findAudoloaderForClass($class);
-		    //echo PHP_EOL."! >> Loading using: ".$loader;
+		    //echo PHP_EOL."! >> Loading '$class' using: ".$loader;
 		    try {
                 $loader->loadClass($class); 
             } catch(Exception $e) {
@@ -34,7 +33,7 @@ class Phake_AutoLoader extends Zend_Loader
 		//echo PHP_EOL . 'Done';
 		if(!class_exists($class)) {
 		    //echo "THROWING!";
-		    throw new Phake_AutoLoader_Exception_ClassUnknown();
+		    throw new Phake_Autoloader_Exception_ClassUnknown();
 		}
     }
     
@@ -60,12 +59,12 @@ class Phake_AutoLoader extends Zend_Loader
         
         // If no loaders were found, we don't know about the class
         if(count($eligable_loaders)==0) {
-            throw new Phake_AutoLoader_Exception_ClassUnknown("No loaders know about the class '$class'.");
+            throw new Phake_Autoloader_Exception_ClassUnknown("No loaders know about the class '$class'.");
         }
         
         // If more than one loader was found, we don't know what to do
         if(count($eligable_loaders)>1) {
-            throw new Phake_AutoLoader_Exception_LoaderConflict("More than one loader knows about the class '$class': ".implode(", ", self::getAutoloaders($eligable_loaders)));
+            throw new Phake_Autoloader_Exception_LoaderConflict("More than one loader knows about the class '$class': ".implode(", ", self::getAutoloaders($eligable_loaders)));
         }
         
         return self::getAutoloader($eligable_loaders[0]);
