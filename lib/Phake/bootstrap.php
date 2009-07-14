@@ -10,16 +10,11 @@ define('PHAKE_DIR_INSTALL', PHAKE_DIR_APP.'phaker/installed');
 
 ini_set('include_path',ini_get('include_path').':'.dirname(dirname(__FILE__)).'/');
 
-
 require_once 'Zend/Loader.php';
 
 require_once PHAKE_DIR_SRC.'Autoloader.php';
 
 Zend_Loader::registerAutoload('Phake_AutoLoader');
-
-//class Phake_AutoLoader_Exception extends Exception {}
-//class Phake_AutoLoader_Exception_ClassUnknown extends Phake_AutoLoader_Exception {}
-//class Phake_AutoLoader_Exception_LoaderConflict extends Phake_AutoLoader_Exception {}
 
 require_once PHAKE_DIR_SRC . '/AutoLoader/Exception.php';
 require_once PHAKE_DIR_SRC . '/AutoLoader/Exception/ClassUnknown.php';
@@ -31,10 +26,6 @@ Phake_AutoLoader::addAutoloader(new Phake_AutoLoader_Loader_Phake());
 
 require_once PHAKE_DIR_SRC . '/AutoLoader/Loader/Scripts.php';
 Phake_AutoLoader::addAutoloader(new Phake_AutoLoader_Loader_Scripts());
-
-
-
-// d F
 
 
 function red($a) {

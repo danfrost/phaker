@@ -2,7 +2,6 @@
 # Add this to your $PATH
 #
 
-#clear
 echo
 dir=`dirname $0`
 

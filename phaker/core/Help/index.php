@@ -41,7 +41,17 @@ foreach ($cmds as $c) {
     		} else {
     			$action = $a;
     		}
-    		echo ("   - ".red(str_pad($action, 15))."\t".Phake_Inspector::getActionDocs($c,$a) ).PHP_EOL;
+    		
+    		$docs = Phake_Inspector::getActionDocs($c,$a);
+    		
+    		$line = "   - ".red(str_pad($action, 15)).'    ';
+    		print_r($_SERVER);
+        	$exec = 'echo "$COLUMNS"';
+    		echo $exec;
+    		$cols = `$exec`;
+    		echo($cols);
+    		
+    		//echo ("   - ".red(str_pad($action, 15))."\t". ).PHP_EOL;
     	}
 	} else {
 		$dir = dirname($path);
